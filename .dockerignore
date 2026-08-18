@@ -1,0 +1,16 @@
+﻿.git
+.gitignore
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+mobile/node_modules
+node_modules
+data/raw
+runs
+logs
+*.log
+.env
+.DS_Store
+.coverage

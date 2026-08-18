@@ -1,0 +1,103 @@
+# Python byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments and secrets
+venv/
+.venv/
+env/
+.env
+.env.*
+!.env.example
+*.conf
+team2.conf
+*.key
+*.pem
+credentials*
+
+# Binaries, executables, and firmware dumps
+bin/
+*.exe
+*.bin
+*.elf
+
+# IDE / Editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Large raw archive files
+data/raw/*.zip
+data/raw/hasan
+data/raw/AzeBankNotes_labelling/
+artifacts/*.zip
+artifacts/gulnar_rescued_labels.zip
+artifacts/azn_banknotes_dataset.zip
+
+# Processed image binary dumps (keep text labels and manifests tracked)
+data/processed/images/
+data/processed/master/
+data/processed/pruned_archive/
+*.cache
+data/processed/labels/*.cache
+
+# Model checkpoints, training runs, and archive bundles
+runs/
+wandb/
+*.zip
+*.tar.gz
+artifacts/weights/
+artifacts/runs/
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Documentation exclusions (keep only annotation_guidelines.md and contribution statements)
+docs/*
+!docs/annotation_guidelines.md
+!docs/contribution*
+
+
+# Test and coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs, scratch scratchpads, and local experiments
+logs/
+*.log
+scratch/
+artifacts/scratch/
+
+# Node.js, Expo, and Mobile application build artifacts
+node_modules/
+mobile/node_modules/
+.expo/
+mobile/.expo/
+mobile/dist/
+*.orig.*
+
+# LaTeX temporary and auxiliary compilation files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.nav
+*.out
+*.snm
+*.synctex*
+*.toc
+*.vrb
+
