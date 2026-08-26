@@ -1,0 +1,151 @@
+[
+  {
+    "model_id": "dinov2_vitl14",
+    "architecture": "DINOv2 ViT-L/14 (Linear Probe Baseline)",
+    "paradigm": "Frozen Foundation ViT",
+    "parameters_m": 304.3,
+    "gflops_640": null,
+    "val_map50": null,
+    "val_map50_95": null,
+    "test_map50": null,
+    "test_map50_95": null,
+    "val_accuracy": 0.3173,
+    "test_accuracy": 0.4751,
+    "val_macro_f1": 0.2881,
+    "test_macro_f1": 0.4691,
+    "latency_gpu_ms": null,
+    "fps_gpu": null
+  },
+  {
+    "model_id": "yolo11m",
+    "architecture": "YOLOv11m (Spatial Attention CNN)",
+    "paradigm": "Anchor-Free CNN",
+    "parameters_m": 20.06,
+    "val_map50": 0.8332,
+    "val_map50_95": 0.7375,
+    "val_map75": 0.7445,
+    "test_map50": 0.7854,
+    "test_map50_95": 0.6167,
+    "test_map75": 0.5992,
+    "latency_gpu_ms": 4.76,
+    "fps_gpu": 210.0,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.8849,
+        "ap50_95": 0.6613
+      },
+      "005_azn": {
+        "ap50": 0.8748,
+        "ap50_95": 0.7975
+      },
+      "010_azn": {
+        "ap50": 0.7982,
+        "ap50_95": 0.7453
+      },
+      "020_azn": {
+        "ap50": 0.41,
+        "ap50_95": 0.2724
+      },
+      "050_azn": {
+        "ap50": 0.9383,
+        "ap50_95": 0.564
+      },
+      "100_azn": {
+        "ap50": 0.9946,
+        "ap50_95": 0.9491
+      },
+      "200_azn": {
+        "ap50": 0.5967,
+        "ap50_95": 0.3271
+      }
+    }
+  },
+  {
+    "model_id": "yolov8m",
+    "architecture": "YOLOv8m (Anchor-Free CNN)",
+    "paradigm": "Anchor-Free CNN",
+    "parameters_m": 25.86,
+    "val_map50": 0.8079,
+    "val_map50_95": 0.7074,
+    "val_map75": 0.7221,
+    "test_map50": 0.7558,
+    "test_map50_95": 0.5783,
+    "test_map75": 0.568,
+    "latency_gpu_ms": 4.39,
+    "fps_gpu": 227.7,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.8124,
+        "ap50_95": 0.6186
+      },
+      "005_azn": {
+        "ap50": 0.8581,
+        "ap50_95": 0.7722
+      },
+      "010_azn": {
+        "ap50": 0.7876,
+        "ap50_95": 0.7101
+      },
+      "020_azn": {
+        "ap50": 0.448,
+        "ap50_95": 0.2807
+      },
+      "050_azn": {
+        "ap50": 0.8543,
+        "ap50_95": 0.5051
+      },
+      "100_azn": {
+        "ap50": 0.9559,
+        "ap50_95": 0.8656
+      },
+      "200_azn": {
+        "ap50": 0.5745,
+        "ap50_95": 0.2957
+      }
+    }
+  },
+  {
+    "model_id": "rtdetr_l",
+    "architecture": "RT-DETR-L (Real-Time Vision Transformer)",
+    "paradigm": "Vision Transformer",
+    "parameters_m": 32.82,
+    "val_map50": 0.8073,
+    "val_map50_95": 0.7014,
+    "val_map75": 0.713,
+    "test_map50": 0.6965,
+    "test_map50_95": 0.5368,
+    "test_map75": 0.5186,
+    "latency_gpu_ms": 10.94,
+    "fps_gpu": 91.4,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.8293,
+        "ap50_95": 0.6182
+      },
+      "005_azn": {
+        "ap50": 0.8027,
+        "ap50_95": 0.7295
+      },
+      "010_azn": {
+        "ap50": 0.7834,
+        "ap50_95": 0.6932
+      },
+      "020_azn": {
+        "ap50": 0.3373,
+        "ap50_95": 0.2025
+      },
+      "050_azn": {
+        "ap50": 0.6779,
+        "ap50_95": 0.3951
+      },
+      "100_azn": {
+        "ap50": 0.9522,
+        "ap50_95": 0.8639
+      },
+      "200_azn": {
+        "ap50": 0.4929,
+        "ap50_95": 0.255
+      }
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "is_running": false,
+  "active_model": null,
+  "completed": true,
+  "timestamp": 1789062949.7282143,
+  "hardware": {
+    "is_running": false,
+    "pid": null
+  }
+}
