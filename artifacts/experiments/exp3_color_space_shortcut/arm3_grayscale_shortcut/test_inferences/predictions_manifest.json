@@ -1,0 +1,55 @@
+{
+  "model": "arm3_grayscale_shortcut",
+  "experiment": "exp3_color_space_shortcut",
+  "total_predictions": 12,
+  "predictions": [
+    {
+      "filename": "001_azn_00001_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00001_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00002_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00002_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00003_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00003_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00004_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00004_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00005_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00005_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00006_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00006_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00007_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00007_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00008_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00008_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00009_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00009_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00010_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00010_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00011_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00011_pred.jpg"
+    },
+    {
+      "filename": "001_azn_00012_pred.jpg",
+      "path": "artifacts/experiments/exp3_color_space_shortcut/arm3_grayscale_shortcut/test_inferences/001_azn_00012_pred.jpg"
+    }
+  ]
+}
