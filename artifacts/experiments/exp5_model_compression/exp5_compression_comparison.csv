@@ -1,0 +1,5 @@
+arm_id,display_name,precision_tier,model_size_mb,test_map50,test_map50_95,gpu_latency_ms,gpu_fps,cpu_latency_ms,cpu_fps,compression_ratio,delta_test_map50
+arm1_fp32,FP32 Full Precision (Baseline),FP32,77.02,0.9555,0.8434,30.33,33.0,349.91,2.9,1.0,0.0
+arm2_fp16,FP16 Half Precision,FP16,38.63,0.9557,0.8434,29.79,33.6,349.91,2.9,1.99,0.0002
+arm3_int8,INT8 Post-Training Quantization (PTQ),INT8,19.37,0.943,0.8282,20.26,49.4,192.45,5.2,3.98,-0.0125
+arm4_pruned_25,25% Structured L1 Filter Pruned,FP32-Pruned,38.67,0.9314,0.8084,45.2,22.1,272.93,3.7,1.99,-0.0241

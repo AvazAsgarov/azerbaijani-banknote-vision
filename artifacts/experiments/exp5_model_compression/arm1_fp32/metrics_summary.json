@@ -1,0 +1,14 @@
+{
+  "arm_id": "arm1_fp32",
+  "display_name": "FP32 Full Precision (Baseline)",
+  "precision_tier": "FP32",
+  "model_size_mb": 77.02,
+  "test_map50": 0.9555,
+  "test_map50_95": 0.8434,
+  "gpu_latency_ms": 30.33,
+  "gpu_fps": 33.0,
+  "cpu_latency_ms": 349.91,
+  "cpu_fps": 2.9,
+  "compression_ratio": 1.0,
+  "delta_test_map50": 0.0
+}

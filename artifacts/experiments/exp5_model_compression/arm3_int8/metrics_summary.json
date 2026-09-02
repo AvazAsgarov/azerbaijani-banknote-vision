@@ -1,0 +1,14 @@
+{
+  "arm_id": "arm3_int8",
+  "display_name": "INT8 Post-Training Quantization (PTQ)",
+  "precision_tier": "INT8",
+  "model_size_mb": 19.37,
+  "test_map50": 0.943,
+  "test_map50_95": 0.8282,
+  "gpu_latency_ms": 20.26,
+  "gpu_fps": 49.4,
+  "cpu_latency_ms": 192.45,
+  "cpu_fps": 5.2,
+  "compression_ratio": 3.98,
+  "delta_test_map50": -0.0125
+}

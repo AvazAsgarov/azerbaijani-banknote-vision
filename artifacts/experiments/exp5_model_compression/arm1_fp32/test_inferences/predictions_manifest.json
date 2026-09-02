@@ -1,0 +1,206 @@
+[
+  {
+    "image_name": "001_azn_00001.jpg",
+    "prediction_file": "001_azn_00001_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 0,
+        "class_name": "001_azn",
+        "confidence": 0.87,
+        "bbox": [
+          252.9,
+          470.6,
+          867.8,
+          1355.7
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "001_azn_00187.jpg",
+    "prediction_file": "001_azn_00187_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 0,
+        "class_name": "001_azn",
+        "confidence": 0.903,
+        "bbox": [
+          249.5,
+          293.0,
+          1088.5,
+          931.2
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "001_azn_00250.jpg",
+    "prediction_file": "001_azn_00250_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 0,
+        "class_name": "001_azn",
+        "confidence": 0.889,
+        "bbox": [
+          469.8,
+          801.1,
+          1095.1,
+          1194.6
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "005_azn_00178.jpg",
+    "prediction_file": "005_azn_00178_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 1,
+        "class_name": "005_azn",
+        "confidence": 0.912,
+        "bbox": [
+          155.3,
+          469.9,
+          902.3,
+          1324.2
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "010_azn_00149.jpg",
+    "prediction_file": "010_azn_00149_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 0,
+        "class_name": "001_azn",
+        "confidence": 0.545,
+        "bbox": [
+          464.7,
+          1035.4,
+          683.9,
+          1253.0
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "010_azn_00466.jpg",
+    "prediction_file": "010_azn_00466_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 0,
+        "class_name": "001_azn",
+        "confidence": 0.86,
+        "bbox": [
+          262.6,
+          240.9,
+          761.3,
+          798.4
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "020_azn_00314.jpg",
+    "prediction_file": "020_azn_00314_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 3,
+        "class_name": "020_azn",
+        "confidence": 0.892,
+        "bbox": [
+          21.8,
+          305.1,
+          872.4,
+          1218.5
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "050_azn_00140.jpg",
+    "prediction_file": "050_azn_00140_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 4,
+        "class_name": "050_azn",
+        "confidence": 0.849,
+        "bbox": [
+          358.7,
+          89.5,
+          1014.6,
+          894.7
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "050_azn_00172.jpg",
+    "prediction_file": "050_azn_00172_pred.jpg",
+    "detections_count": 0,
+    "detections": []
+  },
+  {
+    "image_name": "050_azn_00204.jpg",
+    "prediction_file": "050_azn_00204_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 4,
+        "class_name": "050_azn",
+        "confidence": 0.768,
+        "bbox": [
+          155.1,
+          408.6,
+          622.3,
+          1070.4
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "100_azn_00253.jpg",
+    "prediction_file": "100_azn_00253_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 5,
+        "class_name": "100_azn",
+        "confidence": 0.89,
+        "bbox": [
+          369.4,
+          645.8,
+          775.7,
+          1044.1
+        ]
+      }
+    ]
+  },
+  {
+    "image_name": "200_azn_00002.jpg",
+    "prediction_file": "200_azn_00002_pred.jpg",
+    "detections_count": 1,
+    "detections": [
+      {
+        "class_id": 6,
+        "class_name": "200_azn",
+        "confidence": 0.882,
+        "bbox": [
+          51.8,
+          399.1,
+          651.9,
+          1153.4
+        ]
+      }
+    ]
+  }
+]
