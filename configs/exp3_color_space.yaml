@@ -1,0 +1,16 @@
+# Experiment 3 -- Colour Space Shortcut Learning
+# Responsible: Hasan Mammadov
+experiment:
+  id: exp3
+  name: Color Space Shortcut Learning
+model:
+  architecture: yolo11m
+  input_size: 640
+color_spaces: [RGB, HSV, Grayscale]
+training:
+  epochs: 100
+  batch_size: 16
+  seed: 42
+evaluation:
+  metrics: [mAP50, mAP50-95, precision, recall]
+  split: test
