@@ -1,0 +1,15 @@
+# Experiment 6 -- XAI EigenCAM Attention Diagnostics
+# Responsible: Nicat Alaskarli
+experiment:
+  id: exp6
+  name: Explainable AI EigenCAM Numismatic Motif Alignment
+model:
+  checkpoint: runs/detect/yolo11m_champion/weights/best.pt
+  target_layers: [model.model.22, model.model.9]
+evaluation:
+  num_samples: 175
+  split: test
+  alignment_threshold: 0.50
+results:
+  numismatic_alignment: 0.5798
+  background_score: 0.4202
