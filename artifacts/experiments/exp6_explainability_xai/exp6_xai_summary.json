@@ -1,0 +1,64 @@
+{
+  "experiment": "exp6_explainability_xai",
+  "champion_model": "yolo11m_full_composite",
+  "device": "cuda:0",
+  "target_layer": "model.23.cv3.2.2",
+  "total_analyzed_samples": 175,
+  "overall_mean_alignment_score": 0.5798,
+  "overall_accuracy": 0.92,
+  "denomination_metrics": [
+    {
+      "denomination": "001_azn",
+      "mean_alignment": 0.768544,
+      "accuracy": 0.96,
+      "mean_confidence": 0.84592,
+      "sample_count": 25
+    },
+    {
+      "denomination": "005_azn",
+      "mean_alignment": 0.494496,
+      "accuracy": 0.72,
+      "mean_confidence": 0.7278,
+      "sample_count": 25
+    },
+    {
+      "denomination": "010_azn",
+      "mean_alignment": 0.28768,
+      "accuracy": 0.76,
+      "mean_confidence": 0.64116,
+      "sample_count": 25
+    },
+    {
+      "denomination": "020_azn",
+      "mean_alignment": 0.7256239999999999,
+      "accuracy": 1.0,
+      "mean_confidence": 0.89628,
+      "sample_count": 25
+    },
+    {
+      "denomination": "050_azn",
+      "mean_alignment": 0.770124,
+      "accuracy": 1.0,
+      "mean_confidence": 0.8400799999999999,
+      "sample_count": 25
+    },
+    {
+      "denomination": "100_azn",
+      "mean_alignment": 0.520908,
+      "accuracy": 1.0,
+      "mean_confidence": 0.8929600000000001,
+      "sample_count": 25
+    },
+    {
+      "denomination": "200_azn",
+      "mean_alignment": 0.490948,
+      "accuracy": 1.0,
+      "mean_confidence": 0.85452,
+      "sample_count": 25
+    }
+  ],
+  "hard_pair_analysis": {
+    "020_azn_alignment": 0.7256239999999999,
+    "200_azn_alignment": 0.490948
+  }
+}
