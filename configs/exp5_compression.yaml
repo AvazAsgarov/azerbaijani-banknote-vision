@@ -1,0 +1,13 @@
+# Experiment 5 -- Model Compression
+# Responsible: Hasan Mammadov
+experiment:
+  id: exp5
+  name: Model Compression (Precision vs Accuracy Pareto)
+model:
+  architecture: yolo11m
+  base_checkpoint: runs/detect/yolo11m_champion/weights/best.pt
+compression_targets: [FP32, FP16, INT8, Pruned]
+evaluation:
+  device: cuda
+  warmup_runs: 10
+  benchmark_runs: 100
