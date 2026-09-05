@@ -1,0 +1,17 @@
+# Experiment 2 — Data Augmentation Impact Ablation
+# Responsible: Gulnar Babazade (data pipeline), Kazim Mammadli (execution)
+
+experiment:
+  id: exp2
+  name: "Data Augmentation Impact Ablation"
+model:
+  architecture: yolo11m
+  input_size: 640
+augmentation_policies: [raw, geometric, photometric, composite]
+training:
+  epochs: 100
+  batch_size: 16
+  seed: 42
+evaluation:
+  metrics: [mAP50, mAP50-95, generalisation_gap]
+  split: test
