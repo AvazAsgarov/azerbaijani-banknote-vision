@@ -1,0 +1,16 @@
+# TinyML Edge Pipeline Configuration
+# Responsible: Kazim Mammadli
+pipeline:
+  model: YOLO-FastestV2
+  precision: INT8
+  input_size: 96
+  flatbuffer: artifacts/tinyml/azn_vision_int8.tflite
+target:
+  device: ESP32-S3
+  board: Seeed Studio XIAO ESP32-S3 Sense
+  cpu_freq_mhz: 240
+  sram_kb: 512
+performance:
+  fps: 5.3
+  sram_used_kb: 373.8
+  map50: 0.784
