@@ -1,0 +1,59 @@
+{
+  "arm_id": "arm4_full_composite",
+  "display_name": "Arm 4: Full Composite (Mosaic, Mixup, Geometric & Color)",
+  "status": "SUCCESS",
+  "train_time_minutes": 22.01,
+  "val_map50": 0.9709,
+  "val_map50_95": 0.8804,
+  "val_map75": 0.9587,
+  "test_map50": 0.9543,
+  "test_map50_95": 0.8377,
+  "test_map75": 0.9409,
+  "generalization_gap_map50": 0.0165,
+  "latency_gpu_ms": 4.62,
+  "fps_gpu": 216.5,
+  "per_class_test_ap": {
+    "001_azn": {
+      "ap50": 0.8839648190188705,
+      "ap50_95": 0.8839648190188705
+    },
+    "005_azn": {
+      "ap50": 0.8063616088065952,
+      "ap50_95": 0.8063616088065952
+    },
+    "010_azn": {
+      "ap50": 0.7803360988157567,
+      "ap50_95": 0.7803360988157567
+    },
+    "020_azn": {
+      "ap50": 0.8801364131057395,
+      "ap50_95": 0.8801364131057395
+    },
+    "050_azn": {
+      "ap50": 0.7819210357865622,
+      "ap50_95": 0.7819210357865622
+    },
+    "100_azn": {
+      "ap50": 0.8900913881290325,
+      "ap50_95": 0.8900913881290325
+    },
+    "200_azn": {
+      "ap50": 0.8411177466542673,
+      "ap50_95": 0.8411177466542673
+    }
+  },
+  "hyperparameters": {
+    "mosaic": 1.0,
+    "mixup": 0.15,
+    "copy_paste": 0.1,
+    "fliplr": 0.5,
+    "degrees": 15.0,
+    "translate": 0.15,
+    "scale": 0.5,
+    "shear": 2.5,
+    "perspective": 0.0005,
+    "hsv_h": 0.025,
+    "hsv_s": 0.7,
+    "hsv_v": 0.4
+  }
+}

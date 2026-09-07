@@ -1,0 +1,58 @@
+{
+  "arm_id": "arm3_photometric",
+  "display_name": "Arm 3: Pure Photometric (Color Jitter & Lighting)",
+  "status": "SUCCESS",
+  "train_time_minutes": 21.91,
+  "val_map50": 0.9453,
+  "val_map50_95": 0.9222,
+  "val_map75": 0.9332,
+  "test_map50": 0.8626,
+  "test_map50_95": 0.8015,
+  "test_map75": 0.8315,
+  "generalization_gap_map50": 0.0827,
+  "latency_gpu_ms": 4.6,
+  "fps_gpu": 217.4,
+  "per_class_test_ap": {
+    "001_azn": {
+      "ap50": 0.922672594918617,
+      "ap50_95": 0.922672594918617
+    },
+    "005_azn": {
+      "ap50": 0.7343045649803168,
+      "ap50_95": 0.7343045649803168
+    },
+    "010_azn": {
+      "ap50": 0.6114361572681248,
+      "ap50_95": 0.6114361572681248
+    },
+    "020_azn": {
+      "ap50": 0.6667333104999417,
+      "ap50_95": 0.6667333104999417
+    },
+    "050_azn": {
+      "ap50": 0.791649559621217,
+      "ap50_95": 0.791649559621217
+    },
+    "100_azn": {
+      "ap50": 0.9492091647589953,
+      "ap50_95": 0.9492091647589953
+    },
+    "200_azn": {
+      "ap50": 0.9344246794871796,
+      "ap50_95": 0.9344246794871796
+    }
+  },
+  "hyperparameters": {
+    "mosaic": 0.0,
+    "mixup": 0.0,
+    "fliplr": 0.0,
+    "degrees": 0.0,
+    "translate": 0.0,
+    "scale": 0.0,
+    "shear": 0.0,
+    "perspective": 0.0,
+    "hsv_h": 0.025,
+    "hsv_s": 0.7,
+    "hsv_v": 0.4
+  }
+}
