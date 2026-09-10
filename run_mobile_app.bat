@@ -32,37 +32,75 @@ echo [OK] Runtime ready.
 
 echo.
 echo [2/3] Checking GPU Inference Bridge (Port 8000)...
-powershell -NoProfile -Command "try { if ((Invoke-WebRequest -Uri 'http://localhost:8000/health' -UseBasicParsing -TimeoutSec 1).StatusCode -eq 200) { exit 0 } else { exit 1 } } catch { exit 1 }" >nul 2>&1
+"%PYTHON_CMD%" -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=1.5)" >nul 2>&1
 if %errorlevel% neq 0 (
     echo Starting GPU Inference Bridge on Port 8000...
     start "AZN-Vision GPU Bridge (Port 8000)" /D "%~dp0" cmd /k ""%PYTHON_CMD%" "%~dp0scripts\mobile_bridge.py" --host 0.0.0.0 --port 8000"
+    timeout /t 3 /nobreak >nul
 ) else (
     echo [OK] GPU Inference Bridge is active on port 8000.
 )
 
 echo.
-echo [3/3] Resolving Network Interfaces and Launching Expo Go...
+echo [3/3] Resolving Network Interfaces and Configuring Mobile App...
 echo ====================================================================
 
-rem Dynamically detect local Wi-Fi / LAN IP (avoiding VPN and virtual adapters like team2)
-for /f "delims=" %%a in ('powershell -NoProfile -Command "([System.Net.Dns]::GetHostAddresses([System.Net.Dns]::GetHostName()) | Where-Object { $_.AddressFamily -eq 'InterNetwork' -and $_.IPAddressToString -like '192.168.*' } | Select-Object -First 1).IPAddressToString"') do set "WIFI_IP=%%a"
-if not defined WIFI_IP set "WIFI_IP=127.0.0.1"
+rem Dynamically detect local Wi-Fi / LAN IP via outbound socket connection
+for /f "delims=" %%a in ('"%PYTHON_CMD%" -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect(('8.8.8.8', 80)); print(s.getsockname()[0]); s.close()"') do set "WIFI_IP=%%a"
+if not defined WIFI_IP set "WIFI_IP=192.168.0.142"
 
 set "REACT_NATIVE_PACKAGER_HOSTNAME=%WIFI_IP%"
+set "EXPO_PUBLIC_VISION_BRIDGE_URL=http://%WIFI_IP%:8000"
+
+rem Auto-configure mobile/.env file with active host IP
+echo EXPO_PUBLIC_VISION_BRIDGE_URL=http://%WIFI_IP%:8000> "%~dp0mobile\.env"
 
 echo [OK] Active Wi-Fi Host IP : %WIFI_IP%
 echo [OK] GPU Inference Bridge : http://%WIFI_IP%:8000
-echo [OK] Expo Go Target URL   : exp://%WIFI_IP%:8081
+echo [OK] Web Monitor & Stream : http://%WIFI_IP%:8000/view
 echo.
-echo Please scan the QR code below using the Expo Go app on your phone.
-echo Ensure your phone is connected to the same Wi-Fi network (%WIFI_IP%).
 echo ====================================================================
+echo SELECT CONNECTION MODE:
+echo   [1] LAN MODE (Recommended - Direct Local Wi-Fi, Real-Time 30 FPS)
+echo       - Direct connection over your Wi-Fi router (zero cloud latency).
+echo       - Requires iPhone to be on the same Wi-Fi (%WIFI_IP%).
+echo   [2] TUNNEL MODE (Ngrok Cloud Tunnel)
+echo       - Use if devices are on different networks or cellular data.
+echo   [3] WEB MODE (Browser Preview)
+echo       - Opens web preview directly in your PC browser.
+echo ====================================================================
+echo.
+echo Launching [1] LAN MODE automatically in 5 seconds (or press 1, 2, 3)...
+choice /c 123 /t 5 /d 1 /m "Enter your choice [1, 2, 3]: "
+set "MODE_CHOICE=%errorlevel%"
 
 rem Terminate any stale process occupying Metro bundler port 8081
-powershell -NoProfile -Command "$conns = Get-NetTCPConnection -LocalPort 8081 -State Listen -ErrorAction SilentlyContinue; foreach ($c in $conns) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue }" >nul 2>&1
+powershell -NoProfile -Command "Get-NetTCPConnection -LocalPort 8081 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }" >nul 2>&1
 
 cd /d "%~dp0mobile"
-call npx expo start --clear --offline
+
+if "%MODE_CHOICE%"=="1" (
+    echo.
+    echo ====================================================================
+    echo [OK] Starting LAN Mode (exp://%WIFI_IP%:8081)
+    echo Make sure your iPhone is connected to the same Wi-Fi network!
+    echo Scan the QR code below with the Camera / Expo Go app on your phone.
+    echo ====================================================================
+    call npx expo start --host lan --clear
+) else if "%MODE_CHOICE%"=="2" (
+    echo.
+    echo ====================================================================
+    echo [OK] Starting Tunnel Mode (Global ngrok cloud tunnel)
+    echo Scan the QR code below with the Expo Go app on your phone.
+    echo ====================================================================
+    call npx expo start --tunnel --clear
+) else (
+    echo.
+    echo ====================================================================
+    echo [OK] Starting Web Mode...
+    echo ====================================================================
+    call npx expo start --web
+)
 goto FINISHED
 
 :FAILED
