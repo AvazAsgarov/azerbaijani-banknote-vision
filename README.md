@@ -79,7 +79,7 @@ All deep learning models underwent evaluation on our leak-free, class-balanced t
 | | Arm 2: FP16 Mixed | 20.1 | 8.1 | 98.72% | 83.18% | 2.0x storage reduction with zero accuracy degradation |
 | | **Arm 3: INT8 PTQ** | **20.1** | **4.9** | **98.15%** | **82.10%** | **4.02x compression (19.8 MB); minimal metric loss** |
 | | Arm 4: Pruned (25%) | 15.1 | 7.4 | 97.40% | 80.50% | Structured sparsity via L1-norm layer pruning |
-| **Exp 6: XAI Attention** | C2PSA Attention CAM | — | — | — | — | **95 heatmaps; 24.36% numismatic alignment score** |
+| **Exp 6: XAI Attention** | C2PSA Attention CAM | — | — | — | — | **175 heatmaps; 57.98% numismatic alignment score** |
 
 ---
 
