@@ -1,0 +1,14 @@
+{
+  "arm_id": "arm4_pruned_25",
+  "display_name": "25% Structured L1 Filter Pruned",
+  "precision_tier": "FP32-Pruned",
+  "model_size_mb": 38.67,
+  "test_map50": 0.9314,
+  "test_map50_95": 0.8084,
+  "gpu_latency_ms": 45.2,
+  "gpu_fps": 22.1,
+  "cpu_latency_ms": 272.93,
+  "cpu_fps": 3.7,
+  "compression_ratio": 1.99,
+  "delta_test_map50": -0.0241
+}

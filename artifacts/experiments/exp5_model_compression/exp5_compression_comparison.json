@@ -1,0 +1,58 @@
+[
+  {
+    "arm_id": "arm1_fp32",
+    "display_name": "FP32 Full Precision (Baseline)",
+    "precision_tier": "FP32",
+    "model_size_mb": 77.02,
+    "test_map50": 0.9555,
+    "test_map50_95": 0.8434,
+    "gpu_latency_ms": 30.33,
+    "gpu_fps": 33.0,
+    "cpu_latency_ms": 349.91,
+    "cpu_fps": 2.9,
+    "compression_ratio": 1.0,
+    "delta_test_map50": 0.0
+  },
+  {
+    "arm_id": "arm2_fp16",
+    "display_name": "FP16 Half Precision",
+    "precision_tier": "FP16",
+    "model_size_mb": 38.63,
+    "test_map50": 0.9557,
+    "test_map50_95": 0.8434,
+    "gpu_latency_ms": 29.79,
+    "gpu_fps": 33.6,
+    "cpu_latency_ms": 349.91,
+    "cpu_fps": 2.9,
+    "compression_ratio": 1.99,
+    "delta_test_map50": 0.0002
+  },
+  {
+    "arm_id": "arm3_int8",
+    "display_name": "INT8 Post-Training Quantization (PTQ)",
+    "precision_tier": "INT8",
+    "model_size_mb": 19.37,
+    "test_map50": 0.943,
+    "test_map50_95": 0.8282,
+    "gpu_latency_ms": 20.26,
+    "gpu_fps": 49.4,
+    "cpu_latency_ms": 192.45,
+    "cpu_fps": 5.2,
+    "compression_ratio": 3.98,
+    "delta_test_map50": -0.0125
+  },
+  {
+    "arm_id": "arm4_pruned_25",
+    "display_name": "25% Structured L1 Filter Pruned",
+    "precision_tier": "FP32-Pruned",
+    "model_size_mb": 38.67,
+    "test_map50": 0.9314,
+    "test_map50_95": 0.8084,
+    "gpu_latency_ms": 45.2,
+    "gpu_fps": 22.1,
+    "cpu_latency_ms": 272.93,
+    "cpu_fps": 3.7,
+    "compression_ratio": 1.99,
+    "delta_test_map50": -0.0241
+  }
+]

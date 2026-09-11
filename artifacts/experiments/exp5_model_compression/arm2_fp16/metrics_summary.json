@@ -1,0 +1,14 @@
+{
+  "arm_id": "arm2_fp16",
+  "display_name": "FP16 Half Precision",
+  "precision_tier": "FP16",
+  "model_size_mb": 38.63,
+  "test_map50": 0.9557,
+  "test_map50_95": 0.8434,
+  "gpu_latency_ms": 29.79,
+  "gpu_fps": 33.6,
+  "cpu_latency_ms": 349.91,
+  "cpu_fps": 2.9,
+  "compression_ratio": 1.99,
+  "delta_test_map50": 0.0002
+}
