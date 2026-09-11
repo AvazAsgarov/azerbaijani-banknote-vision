@@ -21,10 +21,11 @@ This directory serves as the centralized repository for ground-truth annotation 
 * **Workload Allocation:** 100% balanced workload distribution (20% per member) across 6 empirical research tracks, TinyML edge deployment, mobile app development, and system engineering.
 * **Verification Matrix:** Detailed individual deliverable breakdown, code ownership mappings, slide deck allocation, and GitHub governance audit.
 
-### 3. Scientific Research Report (Upcoming Release)
-* **Status:** In preparation for academic publication.
-* **Target File:** `docs/research_paper_report.pdf` (or `docs/research_paper_report.md`).
-* **Content:** Empirical findings from Experiments 1–6, DINOv2 self-supervised foundation model representation probing, and TinyML INT8 edge deployment.
+### 3. [Capstone Research Paper (`docs/report.pdf`)](report.pdf)
+* **Status:** Complete and Published (12-page IEEEtran conference format).
+* **Canonical Deliverable:** [`docs/report.pdf`](report.pdf) (also accessible as [`docs/reports.pdf`](reports.pdf))
+* **Paper LaTeX Source:** [`docs/report.tex`](report.tex)
+* **Content:** Empirical findings from Experiments 1–6, DINOv2 self-supervised foundation model representation probing, TinyML INT8 edge deployment on ESP32-S3, and 4-tier assistive safety guardrails.
 
 ---
 

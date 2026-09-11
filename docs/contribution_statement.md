@@ -2,7 +2,7 @@
 ### Deep Learning Final Project · AI Academy · Cohort I · 2026
 **Project:** Azerbaijani Banknote Vision (AZN-Vision)  
 **Repository:** https://github.com/AvazAsgarov/azerbaijani-banknote-vision  
-**Release:** `v1.1.0` · 113 Commits · 5 Contributors (Balanced Team Allocation)
+**Release:** `v1.2.1` · 115 Commits · 5 Contributors (Balanced Team Allocation)
 
 ---
 
@@ -10,12 +10,12 @@
 
 | Member Name | GitHub Username | Commits | Code (%) | Technical Pillars & Experiments | Slides | Overall Allocation |
 | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
-| **Avaz Asgarov** | [AvazAsgarov](https://github.com/AvazAsgarov) | 29 | 20% | Lead Architect, Modular Core Architecture, Zero-Leakage Stratification Splitter, EDA & Integrity, React Native Mobile Companion App, Master Verification Harness | Slides 1–8 | **20%** |
+| **Avaz Asgarov** | [AvazAsgarov](https://github.com/AvazAsgarov) | 31 | 20% | Lead Architect, Modular Core Architecture, Zero-Leakage Stratification Splitter, EDA & Integrity, React Native Mobile Companion App, Master Verification Harness | Slides 1–8 | **20%** |
 | **Gulnar Babazade** | [gulnarbabazade](https://github.com/gulnarbabazade) | 21 | 20% | Deep Learning Architecture Battle (Exp 1), Multiscale Resolution Scaling (Exp 4), Annotation Standards & Ingestion Quality Gates, Dataset Augmentation Policy | Slides: Exp 1 & Exp 4 | **20%** |
 | **Hasan Mammadov** | [Hasawr](https://github.com/Hasawr) | 21 | 20% | Photometrics & Chromatic Analysis, Color Space Shortcut Learning (Exp 3), Asymmetric Cost-Sensitive Loss Penalty ($\beta_c$), Model Compression & Quantization (Exp 5) | Slides: Exp 3 & Exp 5 | **20%** |
 | **Kazim Mammadli** | [KazimMammadli](https://github.com/KazimMammadli) | 21 | 20% | Data Augmentation Impact Ablation (Exp 2), TinyML YOLO-FastestV2 Edge Pipeline, CIoU Loss & Anchor Optimization, ESP32-S3 Firmware & 4-Tier Safety Guard | Slides: Exp 2 & TinyML | **20%** |
 | **Nicat Alaskarli** | [NicatAlaskarli](https://github.com/NicatAlaskarli) | 21 | 20% | Foundation Model Representations (DINOv2 ViT-L/14 Probing), Explainable AI & EigenCAM Heatmaps (Exp 6), Low-Latency Hardware Camera Streaming Bridge | Slides: Exp 6 & Hardware | **20%** |
-| **Total** | — | **113** | **100%** | **6 Empirical Studies + Foundation Model + TinyML Edge + Mobile** | **All Slides** | **100% (Balanced)** |
+| **Total** | — | **115** | **100%** | **6 Empirical Studies + Foundation Model + TinyML Edge + Mobile** | **All Slides** | **100% (Balanced)** |
 
 ---
 
@@ -70,9 +70,9 @@
 ## 3. Git Workflow & Governance
 
 The repository development strictly adhered to enterprise software engineering standards:
-* **113 Total Commits** cleanly authored and balanced across all 5 team members (29 commits by Lead Architect, 21 commits each across all 4 pillar leads, with active cross-team co-authorship via git trailers).
+* **115 Total Commits** cleanly authored and balanced across all 5 team members (31 commits by Lead Architect, 21 commits each across all 4 pillar leads, with active cross-team co-authorship via git trailers).
 * **Feature Branches & Pull Requests** used for each major milestone with mandatory code review sign-offs.
-* **Annotated Release Tag** `v1.1.0` published with comprehensive audit deliverables and provenance manifests.
+* **Annotated Release Tag** `v1.2.1` published with comprehensive audit deliverables and provenance manifests.
 * **100% Passing Automated Tests** across Python (254 tests: 253 passed, 1 skipped) and Mobile Companion (42 Jest + 23 ESM tests).
 
 ---
