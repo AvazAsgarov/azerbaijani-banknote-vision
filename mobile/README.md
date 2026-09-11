@@ -48,7 +48,11 @@ Designed for visually impaired users and smart glasses integration.
 cd mobile
 npm install --legacy-peer-deps
 
-# 2. Start Expo development server (SDK 57)
+# 2. Configure Environment (Optional)
+# Copy example configuration if overriding the default bridge endpoint
+cp .env.example .env
+
+# 3. Start Expo development server (SDK 57)
 npm start
 
 # 3. Scan the generated QR code using Expo Go on iOS or Android
@@ -58,10 +62,10 @@ npm start
 ```bash
 cd mobile
 
-# Jest Unit Test Suite (7 suites, 38 tests)
+# Jest Unit Test Suite (7 suites, 42 tests)
 npm test
 
-# Standalone Pure ESM Test Runner (15 tests)
+# Standalone Pure ESM Test Runner (23 tests)
 node run_tests.mjs
 
 # TypeScript Typecheck
