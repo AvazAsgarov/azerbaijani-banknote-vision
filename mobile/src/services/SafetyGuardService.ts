@@ -43,22 +43,22 @@ export interface GuardrailConfig {
 }
 
 export const DEFAULT_GUARDRAIL_CONFIG: GuardrailConfig = {
-  minAreaPct: 0.02,
-  minAspectRatio: 0.5,
-  maxAspectRatio: 4.5,
+  minAreaPct: 0.05,
+  minAspectRatio: 1.25,
+  maxAspectRatio: 2.75,
   temporalWindowSize: 5,
-  minTemporalConsensusHighValue: 1,
+  minTemporalConsensusHighValue: 2,
 };
 
 // Asymmetric confidence thresholds based on financial risk
 export const ASYMMETRIC_CONFIDENCE_GATES: Record<number, number> = {
-  0: 0.45, // 1 AZN
-  1: 0.45, // 5 AZN
-  2: 0.50, // 10 AZN
-  3: 0.50, // 20 AZN
-  4: 0.60, // 50 AZN (High Value)
-  5: 0.65, // 100 AZN (Critical Value)
-  6: 0.70, // 200 AZN (Critical Value)
+  0: 0.50, // 1 AZN
+  1: 0.50, // 5 AZN
+  2: 0.60, // 10 AZN
+  3: 0.60, // 20 AZN
+  4: 0.70, // 50 AZN (High Value)
+  5: 0.75, // 100 AZN (Critical Value)
+  6: 0.80, // 200 AZN (Critical Value)
 };
 
 // Live real-world camera confidence gates calibrated for high-precision YOLO11m GPU inference

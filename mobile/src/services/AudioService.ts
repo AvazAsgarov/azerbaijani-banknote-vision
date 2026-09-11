@@ -17,10 +17,10 @@ export class AudioService {
   private lastAnnouncedTimestamp: number = 0;
   private debounceMs: number = 3000;
   private isMuted: boolean = false;
-  private language: "en" | "az" = "en";
+  private language: "en" | "az" = "az";
   private speechAdapter: SpeechAdapter;
 
-  constructor(speechAdapter?: SpeechAdapter, debounceMs: number = 3000, language: "en" | "az" = "en") {
+  constructor(speechAdapter?: SpeechAdapter, debounceMs: number = 3000, language: "en" | "az" = "az") {
     this.debounceMs = debounceMs;
     this.language = language;
     this.speechAdapter = speechAdapter || this.defaultSpeechAdapter;
