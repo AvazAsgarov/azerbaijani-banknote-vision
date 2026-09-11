@@ -288,7 +288,7 @@ def verify_system_architecture() -> None:
         ("configs/data.yaml (YOLO dataset specification)", PATHS.configs_dir / "data.yaml"),
         ("report/ (Scientific paper workspace)", PATHS.root_dir / "report"),
         ("presentation/ (Technical slide deck)", PATHS.root_dir / "presentation"),
-        ("contribution_report.pdf (Author contribution statement)", PATHS.root_dir / "contribution_report.pdf"),
+        ("docs/contribution_statement.md (Author contribution statement)", PATHS.root_dir / "docs" / "contribution_statement.md"),
     ]
 
     all_ok = True

@@ -238,3 +238,14 @@ This project enforces strict software engineering and machine learning invariant
 
 This project is released under the **MIT License**.
 Developed for the **AI Academy Deep Learning Final Project**, focusing on assistive technologies and edge computer vision.
+
+### Team Contributions & Authorship
+This project represents a completely balanced, collaborative research endeavor across all 5 team members (20% contribution each). For the full technical deliverables matrix and individual responsibilities, see [Team Contribution Statement](docs/contribution_statement.md).
+
+| Member | Role | Focus Area |
+|:---|:---|:---|
+| **Avaz Asgarov** | Lead Architect | Core framework, zero-leakage splitter, mobile companion app, master harness |
+| **Gulnar Babazade** | Benchmark Specialist | Architecture battle (Exp 1), resolution scaling (Exp 4), annotation standards |
+| **Hasan Mammadov** | Photometrics Specialist | Color shortcuts (Exp 3), asymmetric loss ($\beta_c$), model compression (Exp 5) |
+| **Kazim Mammadli** | TinyML Specialist | Augmentation ablation (Exp 2), TinyML INT8 pipeline, ESP32-S3 firmware |
+| **Nicat Alaskarli** | XAI & Hardware Specialist | Foundation embeddings (DINOv2), EigenCAM XAI (Exp 6), camera streaming bridge |
