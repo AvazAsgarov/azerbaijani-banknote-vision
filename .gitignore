@@ -1,103 +1,118 @@
-# Python byte-compiled / optimized files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Virtual environments and secrets
-venv/
-.venv/
-env/
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
 .env
-.env.*
-!.env.example
-*.conf
-team2.conf
-*.key
-*.pem
-credentials*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# Binaries, executables, and firmware dumps
-bin/
-*.exe
-*.bin
-*.elf
-
-# IDE / Editor settings
-.idea/
+# IDE / Editors
 .vscode/
-*.swp
-*.swo
-*~
-
-# Operating system files
+.idea/
+*.sublime-project
+*.sublime-workspace
 .DS_Store
 Thumbs.db
-ehthumbs.db
-[Dd]esktop.ini
+*.swp
+*.swo
 
-# Large raw archive files
-data/raw/*.zip
-data/raw/hasan
-data/raw/AzeBankNotes_labelling/
-artifacts/*.zip
-artifacts/gulnar_rescued_labels.zip
-artifacts/azn_banknotes_dataset.zip
-
-# Processed image binary dumps (keep text labels and manifests tracked)
-data/processed/images/
-data/processed/master/
-data/processed/pruned_archive/
-*.cache
-data/processed/labels/*.cache
-
-# Model checkpoints, training runs, and archive bundles
-runs/
+# Weights & Biases / ML tracking
 wandb/
+.comet/
+mlruns/
+
+# Large Datasets & Archives (Raw videos, ZIP archives, Roboflow exports)
 *.zip
+*.tar
 *.tar.gz
-artifacts/weights/
-artifacts/runs/
-*.pt
-*.pth
-*.onnx
-*.engine
+*.7z
+*.rar
+data/raw/*.zip
+data/raw/roboflow_export/
+artifacts/gulnar_rescued_labels.zip
+qualitative_samples/
+runs/detect/train/train_batch*.jpg
+runs/detect/train/val_batch*.jpg
 
-# Documentation exclusions (keep only annotation_guidelines.md and contribution statements)
-docs/*
-!docs/annotation_guidelines.md
-!docs/contribution*
+# Temporary & Live Session Capture Images (Not reproducible research artifacts)
+artifacts/*.jpg
+artifacts/*.html
+artifacts/video_frame_*.jpg
+Launch_Mobile_App.bat
 
+# Binary report PDFs & duplicate root reports
+contribution_report.pdf
+contribution_report.md
 
-# Test and coverage caches
-.pytest_cache/
-.coverage
-htmlcov/
+# Presentation slide screenshots (PDF is the canonical deliverable)
+presentation/slide_*.png
+presentation/slide_*_verified.png
+presentation/slide_*_inspected.png
 
-# Logs, scratch scratchpads, and local experiments
-logs/
-*.log
-scratch/
-artifacts/scratch/
+# Internal team preparation documents
+reports/speaker_guides/
+reports/defense_qa_and_hooks/
+reports/AZN_Vision_Exp6_Nicat_Teqdimat_Beledcisi.md
 
-# Node.js, Expo, and Mobile application build artifacts
-node_modules/
+# Mobile Expo & Node build outputs
 mobile/node_modules/
-.expo/
 mobile/.expo/
 mobile/dist/
-*.orig.*
-
-# LaTeX temporary and auxiliary compilation files
-*.aux
-*.bbl
-*.blg
-*.fls
-*.fdb_latexmk
-*.nav
-*.out
-*.snm
-*.synctex*
-*.toc
-*.vrb
-
+mobile/.env
+mobile/web-build/
