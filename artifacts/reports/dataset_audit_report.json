@@ -1,0 +1,183 @@
+{
+  "exact_duplicates_count": 3,
+  "exact_duplicates": [
+    [
+      "005_azn_00163.jpg",
+      "050_azn_00068.jpg"
+    ],
+    [
+      "005_azn_00164.jpg",
+      "050_azn_00069.jpg"
+    ],
+    [
+      "005_azn_00165.jpg",
+      "050_azn_00070.jpg"
+    ]
+  ],
+  "near_duplicate_pairs_count": 53,
+  "near_duplicate_clusters_count": 50,
+  "sample_near_duplicate_pairs": [
+    {
+      "file_1": "001_azn_00219.jpg",
+      "file_2": "001_azn_00220.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 2
+    },
+    {
+      "file_1": "010_azn_00294.jpg",
+      "file_2": "010_azn_00295.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 5
+    },
+    {
+      "file_1": "020_azn_00228.jpg",
+      "file_2": "020_azn_00231.jpg",
+      "phash_distance": 0,
+      "dhash_distance": 4
+    },
+    {
+      "file_1": "020_azn_00233.jpg",
+      "file_2": "020_azn_00234.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 2
+    },
+    {
+      "file_1": "020_azn_00239.jpg",
+      "file_2": "020_azn_00240.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 3
+    },
+    {
+      "file_1": "020_azn_00241.jpg",
+      "file_2": "020_azn_00242.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 4
+    },
+    {
+      "file_1": "020_azn_00243.jpg",
+      "file_2": "020_azn_00244.jpg",
+      "phash_distance": 0,
+      "dhash_distance": 2
+    },
+    {
+      "file_1": "050_azn_00047.jpg",
+      "file_2": "050_azn_00048.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 2
+    },
+    {
+      "file_1": "001_azn_00222.jpg",
+      "file_2": "001_azn_00229.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 0
+    },
+    {
+      "file_1": "010_azn_00054.jpg",
+      "file_2": "010_azn_00463.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 7
+    },
+    {
+      "file_1": "100_azn_00093.jpg",
+      "file_2": "100_azn_00094.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 11
+    },
+    {
+      "file_1": "001_azn_00139.jpg",
+      "file_2": "001_azn_00140.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 3
+    },
+    {
+      "file_1": "001_azn_00235.jpg",
+      "file_2": "001_azn_00236.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 3
+    },
+    {
+      "file_1": "001_azn_00235.jpg",
+      "file_2": "001_azn_00237.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 5
+    },
+    {
+      "file_1": "001_azn_00236.jpg",
+      "file_2": "001_azn_00237.jpg",
+      "phash_distance": 0,
+      "dhash_distance": 2
+    },
+    {
+      "file_1": "005_azn_00100.jpg",
+      "file_2": "005_azn_00101.jpg",
+      "phash_distance": 0,
+      "dhash_distance": 5
+    },
+    {
+      "file_1": "020_azn_00251.jpg",
+      "file_2": "020_azn_00252.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 7
+    },
+    {
+      "file_1": "020_azn_00253.jpg",
+      "file_2": "020_azn_00254.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 5
+    },
+    {
+      "file_1": "020_azn_00255.jpg",
+      "file_2": "020_azn_00256.jpg",
+      "phash_distance": 2,
+      "dhash_distance": 10
+    },
+    {
+      "file_1": "020_azn_00261.jpg",
+      "file_2": "020_azn_00262.jpg",
+      "phash_distance": 4,
+      "dhash_distance": 8
+    }
+  ],
+  "sample_clusters": [
+    [
+      "001_azn_00219.jpg",
+      "001_azn_00220.jpg"
+    ],
+    [
+      "010_azn_00294.jpg",
+      "010_azn_00295.jpg"
+    ],
+    [
+      "020_azn_00228.jpg",
+      "020_azn_00231.jpg"
+    ],
+    [
+      "020_azn_00233.jpg",
+      "020_azn_00234.jpg"
+    ],
+    [
+      "020_azn_00239.jpg",
+      "020_azn_00240.jpg"
+    ],
+    [
+      "020_azn_00241.jpg",
+      "020_azn_00242.jpg"
+    ],
+    [
+      "020_azn_00243.jpg",
+      "020_azn_00244.jpg"
+    ],
+    [
+      "050_azn_00047.jpg",
+      "050_azn_00048.jpg"
+    ],
+    [
+      "001_azn_00222.jpg",
+      "001_azn_00229.jpg"
+    ],
+    [
+      "010_azn_00054.jpg",
+      "010_azn_00463.jpg"
+    ]
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "cluster_disjointness_confirmed": true,
+  "max_cross_split_similarity_train_test": 0.9582069516181946,
+  "max_cross_split_similarity_train_val": 0.8886798620223999,
+  "mean_cross_split_similarity": 0.2385069727897644,
+  "top_k_nearest_neighbor_contamination_rate": 0.2694516971279375,
+  "cross_split_neighbor_prevalence": 0.2694516971279375,
+  "split_image_counts": {
+    "train": 1760,
+    "val": 379,
+    "test": 383
+  },
+  "class_proportions": {
+    "001_azn": {
+      "train": 0.7015945330296127,
+      "val": 0.15261958997722094,
+      "test": 0.14578587699316628
+    },
+    "005_azn": {
+      "train": 0.6801346801346801,
+      "val": 0.15488215488215487,
+      "test": 0.16498316498316498
+    },
+    "010_azn": {
+      "train": 0.7505070993914807,
+      "val": 0.13793103448275862,
+      "test": 0.11156186612576065
+    },
+    "020_azn": {
+      "train": 0.7038216560509554,
+      "val": 0.15286624203821655,
+      "test": 0.14331210191082802
+    },
+    "050_azn": {
+      "train": 0.616822429906542,
+      "val": 0.1277258566978193,
+      "test": 0.2554517133956386
+    },
+    "100_azn": {
+      "train": 0.7029177718832891,
+      "val": 0.15119363395225463,
+      "test": 0.14588859416445624
+    },
+    "200_azn": {
+      "train": 0.697508896797153,
+      "val": 0.18505338078291814,
+      "test": 0.11743772241992882
+    }
+  }
+}

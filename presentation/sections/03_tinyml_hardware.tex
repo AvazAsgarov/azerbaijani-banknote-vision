@@ -1,0 +1,55 @@
+% ==============================================================================
+% SECTION 3: TINYML EDGE DEPLOYMENT & HARDWARE EMBEDDED SYSTEM
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% Slide 20: TinyML Edge Deployment & Hardware Integration
+% ------------------------------------------------------------------------------
+\begin{frame}{TinyML Edge Deployment: On-Device Wearable Intelligence}{Real-Time YOLO-FastestV2 INT8 Execution on Seeed Studio XIAO ESP32-S3 Sense}
+    \begin{columns}[c]
+        % Left Column: Physical Hardware Platform & Specs
+        \begin{column}{0.40\textwidth}
+            \begin{card}{Hardware: XIAO ESP32-S3 Sense}
+                \centering
+                \vspace{0.02cm}
+                \includegraphics[width=0.68\textwidth,height=0.26\textheight,keepaspectratio]{../reports/figures/hardware/xiao_esp32s3_sense.png}\\[0.06cm]
+                \tiny
+                \renewcommand{\arraystretch}{1.05}
+                \begin{tabular}{ll}
+                    \textbf{Form Factor:} & $21.0 \times 17.5 \times 15.0\text{ mm}$ ($\sim 5\text{ g}$) \\
+                    \textbf{Compute Core:} & Dual Xtensa LX7 @ $240\text{ MHz}$ \\
+                    \textbf{Vector SIMD:} & 128-bit PIE ($1.92\text{ GMACs/s}$) \\
+                    \textbf{Camera Sensor:} & OmniVision OV2640 DVP \\
+                    \textbf{Connectivity:} & BLE 5.0 + Companion Mobile \\
+                \end{tabular}
+            \end{card}
+            
+            \vspace{0.06cm}
+            \kpitech{285 KB Tensor Arena}{512 KB Internal SRAM Fit}{Zero PSRAM latency degradation}
+        \end{column}
+        
+        % Right Column: TinyML Optimization & Safety Guardrails
+        \begin{column}{0.58\textwidth}
+            \begin{techblock}{SRAM vs PSRAM Edge Optimization}
+                \scriptsize
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                    \item \textbf{Champion INT8 Model:} YOLO-FastestV2 ($0.25\text{M}$ params, $340\text{ KB}$ Flash).
+                    \item \textbf{Internal SRAM Fit:} $285\text{ KB}$ Arena on single-cycle $960\text{ MB/s}$ bus.
+                    \item \textbf{Throughput Victory:} \textbf{5.3 FPS} ($190\text{ ms}$); avoids $3\times\text{--}5\times$ PSRAM thrashing.
+                    \item \textbf{Zero-Copy DMA:} Single streaming pass converts DVP frame to INT8 tensor.
+                \end{itemize}
+            \end{techblock}
+            
+            \vspace{0.08cm}
+            \begin{alertblockcustom}{Multi-Tier Assistive Safety Guardrails}
+                \scriptsize
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                    \item \textbf{T1 (Geometry Gate):} Rejects aspect ratios outside $1.4\text{--}2.5$ or bbox $<8\%$.
+                    \item \textbf{T2 (Dynamic Gate):} Asymmetric thresholds ($0.50$ for 1 AZN $\to \ge 0.80$ for 200 AZN).
+                    \item \textbf{T3 (Temporal Ring):} 3-of-5 sliding-window voting eliminates motion jitter.
+                    \item \textbf{T4 (BLE Audio Feedback):} Hands-free Azerbaijani voice delivery (\textit{"100 manat"}).
+                \end{itemize}
+            \end{alertblockcustom}
+        \end{column}
+    \end{columns}
+\end{frame}

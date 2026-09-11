@@ -1,0 +1,40 @@
+% ==============================================================================
+% SECTION 4: ASSISTIVE MOBILE COMPANION APPLICATION
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% Slide 21: Assistive Mobile Companion: Real-Time iOS Experience
+% ------------------------------------------------------------------------------
+\begin{frame}{Assistive Mobile Companion: Real-Time iOS Experience}{Accessible React Native Application with English Speech Synthesis and Offline Audit}
+    \begin{columns}[c]
+        % Left Column: 3x iPhone 15 Pro Mockups (pulled upwards)
+        \begin{column}{0.54\textwidth}
+            \vspace{-0.25cm}
+            \centering
+            \includegraphics[width=\textwidth,height=0.65\textheight,keepaspectratio]{../reports/figures/mobile/mobile_app_3x_mockup.png}
+        \end{column}
+        
+        % Right Column: Mobile Architecture & Accessibility Cards
+        \begin{column}{0.44\textwidth}
+            \begin{techblock}{Cross-Platform Mobile Architecture}
+                \scriptsize
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                    \item \textbf{Production Stack:} React Native 0.86, React 19, Expo SDK 57.
+                    \item \textbf{Docker Service:} Containerized GPU bridge (\texttt{mobile\_bridge.py}).
+                    \item \textbf{Dual Mode:} Phone Camera ($30\text{ FPS}$) + ESP32 Glasses BLE ($5.3\text{ FPS}$).
+                    \item \textbf{SQLite:} Offline audit log \& persistent wallet balance ($386\text{ AZN}$).
+                \end{itemize}
+            \end{techblock}
+            
+            \vspace{0.12cm}
+            \begin{alertblockcustom}{Assistive Accessibility \& Voice Engine}
+                \scriptsize
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                    \item \textbf{English Speech (TTS):} Voice feedback (\textit{"Ten Manat"}, \textit{"Two Hundred Manat"}).
+                    \item \textbf{Tactile Haptics:} Vibration pulse confirms banknote detection.
+                    \item \textbf{Guardrail Active:} Synchronized to eliminate false alarms on high-value notes.
+                \end{itemize}
+            \end{alertblockcustom}
+        \end{column}
+    \end{columns}
+\end{frame}

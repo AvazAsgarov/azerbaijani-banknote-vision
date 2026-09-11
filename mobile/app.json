@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "AI Academy Banknote Vision",
+    "slug": "azn-banknote-vision",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D0F1A"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Tətbiq Azərbaycan manatı əsginaslarını aşkarlamaq üçün kameradan istifadə edir."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#0D0F1A"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.VIBRATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/logo.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Tətbiq Azərbaycan manatı əsginaslarını aşkarlamaq üçün kameradan istifadə edir."
+        }
+      ]
+    ]
+  }
+}

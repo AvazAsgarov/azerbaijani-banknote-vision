@@ -1,0 +1,211 @@
+\documentclass[aspectratio=169, 10pt]{beamer}
+
+% Modern Font and Math Packages
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{microtype}
+\usepackage{hyperref}
+\tcbuselibrary{skins}
+
+% Color Palette - Clean Academic Light (Navy & Royal Slate)
+\definecolor{PrimaryNavy}{RGB}{10, 37, 64}      % Deep Navy
+\definecolor{AccentBlue}{RGB}{0, 102, 204}     % Royal Vivid Blue
+\definecolor{DarkSlate}{RGB}{45, 55, 72}       % Dark Slate Charcoal
+\definecolor{LightGreyBg}{RGB}{247, 250, 252}  % Subtle Off-White Card Fill
+\definecolor{BorderGrey}{RGB}{226, 232, 240}   % Crisp Card Border
+\definecolor{EmeraldGreen}{RGB}{16, 185, 129}  % KPI Success Accent
+\definecolor{AlertRed}{RGB}{225, 29, 72}       % Alert Accent
+
+% Beamer Global Theme Settings
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=DarkSlate}
+\setbeamercolor{frametitle}{fg=PrimaryNavy, bg=white}
+\setbeamercolor{title}{fg=PrimaryNavy}
+\setbeamercolor{subtitle}{fg=AccentBlue}
+\setbeamercolor{author}{fg=DarkSlate}
+\setbeamercolor{institute}{fg=DarkSlate!80}
+\setbeamercolor{date}{fg=DarkSlate!70}
+
+% Turn off default navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Custom Frametitle Formatting
+\setbeamertemplate{frametitle}{
+    \vspace{0.25cm}
+    {\large\bfseries\color{PrimaryNavy}\insertframetitle}
+    \ifx\insertframesubtitle\empty\else
+        \\[-0.1cm]{\scriptsize\color{AccentBlue}\textbf{\insertframesubtitle}}
+    \fi
+    \vspace{0.08cm}
+    \hrule height 0.6pt \color{BorderGrey}
+}
+
+% Custom Footline - Modern Technical Style
+\setbeamertemplate{footline}{
+    \leavevmode%
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[BorderGrey, line width=0.45pt] ([yshift=0.55cm]current page.south west) -- ([yshift=0.55cm]current page.south east);
+    \end{tikzpicture}%
+    \hbox{%
+        \begin{beamercolorbox}[wd=\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=0.8cm,rightskip=0.8cm]{footline}
+            {\tiny%
+                \textbf{\color{PrimaryNavy}AI Academy} \textcolor{BorderGrey!150}{$\mid$} \textcolor{DarkSlate!85}{Group M001 $\cdot$ Team Qarabağ Zəfəri}%
+                \hfill%
+                \textbf{\color{AccentBlue}AZN-Vision: Assistive Banknote Intelligence}%
+                \hfill%
+                \textbf{\color{PrimaryNavy}\insertframenumber}\textcolor{DarkSlate!40}{~/~}\textbf{\color{DarkSlate!70}\inserttotalframenumber}%
+            }%
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+}
+
+% Custom tcolorbox Card Components
+\newtcolorbox{card}[1]{
+    enhanced,
+    colback=LightGreyBg,
+    colframe=BorderGrey,
+    coltitle=PrimaryNavy,
+    fonttitle=\bfseries\footnotesize,
+    title=#1,
+    arc=2mm,
+    boxrule=0.75pt,
+    left=5pt, right=5pt, top=3pt, bottom=3pt,
+    boxsep=1pt,
+    toptitle=1pt, bottomtitle=1pt
+}
+
+\newtcolorbox{techblock}[1]{
+    enhanced,
+    colback=white,
+    colframe=AccentBlue,
+    coltitle=white,
+    colbacktitle=AccentBlue,
+    fonttitle=\bfseries\footnotesize,
+    title=#1,
+    arc=2mm,
+    boxrule=0.75pt,
+    left=5pt, right=5pt, top=3pt, bottom=3pt,
+    boxsep=1pt,
+    toptitle=1pt, bottomtitle=1pt
+}
+
+\newtcolorbox{alertblockcustom}[1]{
+    enhanced,
+    colback=white,
+    colframe=AlertRed,
+    coltitle=white,
+    colbacktitle=AlertRed,
+    fonttitle=\bfseries\footnotesize,
+    title=#1,
+    arc=2mm,
+    boxrule=0.75pt,
+    left=5pt, right=5pt, top=3pt, bottom=3pt,
+    boxsep=1pt,
+    toptitle=1pt, bottomtitle=1pt
+}
+
+\newcommand{\kpitech}[3]{
+    \begin{tcolorbox}[
+        enhanced,
+        colback=LightGreyBg,
+        colframe=AccentBlue,
+        arc=2mm,
+        boxrule=1pt,
+        left=3pt, right=3pt, top=3pt, bottom=3pt,
+        halign=center
+    ]
+        {\small\bfseries\color{PrimaryNavy} #1}\\
+        {\tiny\bfseries\color{AccentBlue} #2}\\
+        {\tiny\color{DarkSlate!80} #3}
+    \end{tcolorbox}
+}
+
+% Presentation Metadata
+\title[AZN-Vision Defense]{\huge\textbf{AZN-Vision: Assistive Banknote Intelligence}}
+\subtitle{\large Wearable Edge Vision System for the Visually Impaired}
+\author[Team Qarabağ Zəfəri]{
+    \textbf{Avaz Asgarov} \and \textbf{Kazim Mammadli} \and \textbf{Gulnaz Babazade} \\[0.1cm]
+    \textbf{Hasan Mammadov} \and \textbf{Nijat Alaskarli}
+}
+\institute[AI Academy]{
+    \textbf{Cohort I 2026} · National Artificial Intelligence Center\\
+    Course: Deep Learning (DLE-AI-202) · Group: \textbf{M001}\\
+    Team: \textbf{Qarabağ Zəfəri}
+}
+\date{Oral Defense · 13 September 2026}
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% Title Slide: Monumental Academic Defense Design
+% ------------------------------------------------------------------------------
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+        % Background geometric watermark (drawn first so it renders behind the navy header)
+        \draw[BorderGrey!60, line width=1.5pt] ([xshift=-2.5cm, yshift=-2.5cm]current page.north east) circle (4.5cm);
+        \draw[BorderGrey!40, line width=0.8pt] ([xshift=-2.5cm, yshift=-2.5cm]current page.north east) circle (5.5cm);
+
+        % Deep Navy Top Header Banner (drawn on top of the watermark circles)
+        \fill[PrimaryNavy] (current page.north west) rectangle ([yshift=-1.3cm]current page.north east);
+        \node[anchor=west, text=white, font=\scriptsize\bfseries] at ([xshift=0.8cm, yshift=-0.65cm]current page.north west) {AI ACADEMY $\cdot$ NATIONAL ARTIFICIAL INTELLIGENCE CENTER};
+        \node[anchor=east, text=white!85, font=\scriptsize\bfseries] at ([xshift=-0.8cm, yshift=-0.65cm]current page.north east) {COHORT I $\cdot$ CAPSTONE DEFENSE};
+
+        % Subtle decorative accent line
+        \fill[AccentBlue] ([yshift=-1.3cm]current page.north west) rectangle ([yshift=-1.36cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace{0.75cm}
+    \begin{center}
+        {\fontsize{21pt}{25pt}\selectfont\bfseries\color{PrimaryNavy} AZN-Vision: Assistive Banknote Intelligence}\\[0.20cm]
+        {\small\bfseries\color{AccentBlue} Wearable Edge Vision System \& Micro-Architecture for the Visually Impaired}\\[0.15cm]
+        {\tiny\color{DarkSlate!70}\textbf{Course: Deep Learning (DLE-AI-202) $\cdot$ Group: M001 $\cdot$ 13 September 2026}}
+    \end{center}
+
+    \vspace{0.20cm}
+    \begin{columns}[c]
+        \begin{column}{0.48\textwidth}
+            \begin{techblock}{Engineering Team: Qarabağ Zəfəri}
+                \small
+                \begin{itemize}\setlength{\itemsep}{4pt}
+                    \item \textbf{Avaz Asgarov}
+                    \item \textbf{Kazim Mammadli}
+                    \item \textbf{Gulnaz Babazade}
+                    \item \textbf{Hasan Mammadov}
+                    \item \textbf{Nijat Alaskarli}
+                \end{itemize}
+            \end{techblock}
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+            \begin{techblock}{Project Repository \& Codebase}
+                \vspace{0.15cm}
+                \centering
+                {\footnotesize\bfseries\color{PrimaryNavy} Official Open-Source Implementation}\\[0.22cm]
+                \href{https://github.com/AvazAsgarov/azerbaijani-banknote-vision}{%
+                    \color{AccentBlue}\bfseries\small%
+                    \underline{\texttt{github.com/AvazAsgarov/}}\\[0.08cm]%
+                    \underline{\texttt{azerbaijani-banknote-vision}}%
+                }\\[0.28cm]
+                {\scriptsize\color{DarkSlate!85}\textbf{Public Engineering Artifacts:}}\\[0.08cm]
+                {\tiny\color{DarkSlate!75} Deep Learning Models $\cdot$ ESP32-S3 Firmware $\cdot$ iOS App $\cdot$ Benchmark Audits}
+                \vspace{0.15cm}
+            \end{techblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% Modular Section Inclusions
+% ------------------------------------------------------------------------------
+\input{sections/01_dataset.tex}
+\input{sections/02_experiments.tex}
+\input{sections/03_tinyml_hardware.tex}
+\input{sections/04_mobile_app.tex}
+\input{sections/05_conclusion.tex}
+
+\end{document}
