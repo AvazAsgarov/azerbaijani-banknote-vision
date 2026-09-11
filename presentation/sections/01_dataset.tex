@@ -129,19 +129,18 @@
         
         \begin{column}{0.44\textwidth}
             \begin{techblock}{Spatial Scale Dynamics}
-                \scriptsize
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \footnotesize
+                \begin{itemize}\setlength{\itemsep}{2.5pt}
                     \item \textbf{Multi-Scale Span:} $<5\%$ (distant) to $>80\%$ (macro).
                     \item \textbf{Aspect Ratio Spread:} Range $1.0\times\text{--}3.2\times$ (nominal: $1.9:1$).
-                    \item \textbf{Boundary Proximity:} Edge-touching truncations.
+                    \item \textbf{Boundary Proximity:} 9.5\% edge-touching truncations.
                 \end{itemize}
             \end{techblock}
             
-            \vspace{0.12cm}
+            \vspace{0.14cm}
             \begin{card}{Engineering Takeaways}
-                \scriptsize
-                \begin{itemize}\setlength{\itemsep}{2.5pt}
-                    \item \textbf{Anchor Dimensioning:} Bimodal scale demands 3-scale FPN with high-aspect anchor priors.
+                \footnotesize
+                \begin{itemize}\setlength{\itemsep}{3.5pt}
                     \item \textbf{Augmentation Rationale:} Rotation ($\pm 15^\circ$) + Mosaic prevent false boundary edge clipping.
                     \item \textbf{Edge Crop Policy:} Zero coordinate hallucination when banknote touches frame perimeter.
                 \end{itemize}
@@ -150,38 +149,6 @@
     \end{columns}
 \end{frame}
 
-% ------------------------------------------------------------------------------
-% Slide 5 (Page 6): Exploratory Data Analysis — Photometric & Sharpness Invariance
-% ------------------------------------------------------------------------------
-\begin{frame}{Exploratory Data Analysis: Photometric Invariance}{Empirical Luminance Spread, Color Channel Distributions, and Blur Profiles}
-    \begin{columns}[c]
-        \begin{column}{0.54\textwidth}
-            \centering
-            \includegraphics[width=\textwidth,height=0.74\textheight,keepaspectratio]{../reports/figures/eda/eda_photometric_distributions.png}
-        \end{column}
-        
-        \begin{column}{0.44\textwidth}
-            \begin{techblock}{Photometric Dynamics}
-                \scriptsize
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Dynamic Range:} Extreme shadows ($\mu < 45$) to glare ($\mu > 215$).
-                    \item \textbf{Color Spread:} Inter-channel white balance deviations.
-                    \item \textbf{Motion Residuals:} Laplacian tail confirms handheld jitter.
-                \end{itemize}
-            \end{techblock}
-            
-            \vspace{0.12cm}
-            \begin{card}{Engineering Takeaways}
-                \scriptsize
-                \begin{itemize}\setlength{\itemsep}{2.5pt}
-                    \item \textbf{Sensor Tuning:} OV2640 on ESP32 requires automatic exposure locking (AEC) for banknote capture.
-                    \item \textbf{HSV Jitter Necessity:} Random hue ($\pm 0.015$) \& saturation ($\pm 0.7$) prevent color shortcut memorization.
-                    \item \textbf{Contrast Normalization:} CLAHE-inspired augmentation arms essential for low-light stability.
-                \end{itemize}
-            \end{card}
-        \end{column}
-    \end{columns}
-\end{frame}
 
 % ------------------------------------------------------------------------------
 % Slide 6 (Page 7): The Spatial Leakage Trap & DINOv2 ViT-L/14 Semantic Manifold

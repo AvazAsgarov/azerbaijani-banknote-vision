@@ -250,7 +250,11 @@ class SpatialAnalyzer:
         self.paths.figures_eda_dir.mkdir(parents=True, exist_ok=True)
         self.paths.figures_dir.mkdir(parents=True, exist_ok=True)
 
-        fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+        fig = plt.figure(figsize=(13.5, 9.5), dpi=300)
+        gs = fig.add_gridspec(2, 4, hspace=0.35, wspace=0.32)
+        ax_top_left = fig.add_subplot(gs[0, 0:2])
+        ax_top_right = fig.add_subplot(gs[0, 2:4])
+        ax_bottom_center = fig.add_subplot(gs[1, 1:3])
 
         order = sorted(list(df_boxes["class_name"].unique()))
         sns.boxplot(
@@ -259,85 +263,69 @@ class SpatialAnalyzer:
             y="aspect_ratio",
             palette=EDADesignSystem.CLASS_PALETTE,
             order=order,
-            ax=axes[0, 0],
+            ax=ax_top_left,
             fliersize=2,
         )
-        axes[0, 0].set_ylim(0.2, 3.5)
-        axes[0, 0].axhline(1.0, color="#d62728", linestyle="--", alpha=0.7, label="Square (1:1)")
-        axes[0, 0].axhline(1.9, color="#2ca02c", linestyle="--", alpha=0.7, label="Standard Banknote Aspect (~1.9:1)")
+        ax_top_left.set_ylim(0.2, 3.5)
+        ax_top_left.axhline(1.0, color="#d62728", linestyle="--", alpha=0.7, label="Square (1:1)")
+        ax_top_left.axhline(1.9, color="#2ca02c", linestyle="--", alpha=0.7, label="Standard Banknote Aspect (~1.9:1)")
         EDADesignSystem.apply_theme(
-            axes[0, 0],
+            ax_top_left,
             title="Bounding Box Aspect Ratio (Width / Height) per Class",
             xlabel="Denomination Class",
             ylabel="Aspect Ratio (w / h)",
         )
-        axes[0, 0].tick_params(axis="x", rotation=25)
-        axes[0, 0].legend(frameon=True, loc="upper right")
+        ax_top_left.tick_params(axis="x", rotation=25)
+        ax_top_left.legend(frameon=True, loc="upper right", fontsize=8.5)
 
         sns.histplot(
             df_boxes["rel_area"],
             bins=40,
             color="#2b5c8f",
             kde=True,
-            ax=axes[0, 1],
+            ax=ax_top_right,
         )
-        axes[0, 1].axvline(0.0025, color="#e66101", linestyle="--", linewidth=1.5, label="Small Object Threshold (<0.0025)")
-        axes[0, 1].axvline(0.0225, color="#02818a", linestyle="--", linewidth=1.5, label="Medium/Large Threshold (0.0225)")
+        ax_top_right.axvline(0.0025, color="#e66101", linestyle="--", linewidth=1.5, label="Small Object (<0.0025)")
+        ax_top_right.axvline(0.0225, color="#02818a", linestyle="--", linewidth=1.5, label="Med/Large (0.0225)")
         EDADesignSystem.apply_theme(
-            axes[0, 1],
+            ax_top_right,
             title="Normalized Bounding Box Area Distribution (COCO Scales)",
             xlabel="Normalized Box Area (w * h / image_area)",
             ylabel="Annotation Count",
         )
-        axes[0, 1].legend(frameon=True, loc="upper right")
+        ax_top_right.legend(frameon=True, loc="upper right", fontsize=8.5)
 
         unique_counts, freq = np.unique(counts_arr, return_counts=True)
         df_counts = pd.DataFrame({"Instances": unique_counts, "Images": freq})
-        sns.barplot(
+        bars = sns.barplot(
             data=df_counts,
             x="Instances",
             y="Images",
             color="#2b5c8f",
-            ax=axes[1, 0],
+            ax=ax_bottom_center,
             edgecolor="none",
         )
+        for p in bars.patches:
+            height = p.get_height()
+            if height > 0:
+                ax_bottom_center.annotate(
+                    f"{int(height):,} images",
+                    (p.get_x() + p.get_width() / 2.0, height),
+                    ha="center",
+                    va="bottom",
+                    fontsize=9.5,
+                    xytext=(0, 4),
+                    textcoords="offset points",
+                    fontweight="bold",
+                    color="#1A2B4C",
+                )
         EDADesignSystem.apply_theme(
-            axes[1, 0],
+            ax_bottom_center,
             title="Annotation Density: Objects Detected Per Image",
             xlabel="Number of Banknote Instances in Image",
             ylabel="Image Count",
         )
-
-        sns.scatterplot(
-            data=df_boxes,
-            x="w",
-            y="h",
-            hue="class_name",
-            palette=EDADesignSystem.CLASS_PALETTE,
-            alpha=0.35,
-            s=15,
-            ax=axes[1, 1],
-            edgecolor="none",
-        )
-        anchor_w = [a[0] for a in anchors]
-        anchor_h = [a[1] for a in anchors]
-        axes[1, 1].scatter(
-            anchor_w,
-            anchor_h,
-            color="#d62728",
-            s=120,
-            marker="X",
-            label="K-Means Anchors (k=6)",
-            zorder=10,
-            edgecolors="black",
-        )
-        EDADesignSystem.apply_theme(
-            axes[1, 1],
-            title="Bounding Box Spatial Dimensions & K-Means Anchors",
-            xlabel="Normalized Width (w / W_img)",
-            ylabel="Normalized Height (h / H_img)",
-        )
-        axes[1, 1].legend(loc="upper right", frameon=True, fontsize=8)
+        ax_bottom_center.set_ylim(0, max(freq) * 1.15)
 
         geom_path_eda = self.paths.figures_eda_dir / "eda_spatial_geometry.png"
         EDADesignSystem.save_figure(fig, geom_path_eda)
