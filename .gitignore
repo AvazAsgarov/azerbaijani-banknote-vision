@@ -136,11 +136,10 @@ data/raw/AzeBankNotes_labelling/
 data/raw/hasan
 data/raw/hasan/
 
-# Internal Assignment & Interim Reports (Docs/ only retains annotation_guidelines and contribution_statement)
+# Internal Course Assignment Prompts & Interim Notes
 docs/DATASET_COLLECTION_GUIDE.md
 docs/DATA_PREP_REPORT.md
 docs/EDA_REPORT.md
-docs/README.md
 docs/dl_final_pdf.pdf
 docs/dl_final_project.md
 docs/research/

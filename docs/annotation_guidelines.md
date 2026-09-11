@@ -1,8 +1,8 @@
-﻿# Dataset Annotation Guidelines & Quality Assurance Protocol
+# Dataset Annotation Guidelines & Quality Assurance Protocol
 ### AZN-Vision: Assistive Azerbaijani Banknote Recognition and Edge Intelligence System
 **Cohort I 2026 · AI Academy · National Artificial Intelligence Center**  
 **Group:** M001 | **Team:** Qarabağ Zəfəri  
-**Annotators & Reviewers:** Avaz Asgarov, Kazim Mammadli, Gulnaz Babazade, Nijat Alaskarli, Hasan Mammadov
+**Annotators & Reviewers:** Avaz Asgarov, Kazim Mammadli, Gulnar Babazade, Nicat Alaskarli, Hasan Mammadov
 
 ---
 
@@ -43,7 +43,7 @@ Because this dataset powers an assistive vision device for visually impaired ind
 To prevent individual annotator subjective drift, a formal calibration audit was conducted prior to full-scale batch labeling.
 
 ### 3.1 Pilot Calibration Dataset
-- A stratified pilot benchmark consisting of **150 candidate images** across all 7 denominations and 12 distinct physical lighting conditions was independently annotated by all 5 team members (Avaz, Kazim, Gulnaz, Nijat, Hasan) in blinded isolation.
+- A stratified pilot benchmark consisting of **150 candidate images** across all 7 denominations and 12 distinct physical lighting conditions was independently annotated by all 5 team members (Avaz, Kazim, Gulnar, Nicat, Hasan) in blinded isolation.
 
 ### 3.2 Inter-Annotator Agreement Metrics
 1. **Spatial Overlap Agreement (Intersection over Union - IoU):**
