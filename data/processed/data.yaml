@@ -1,0 +1,15 @@
+# Ultralytics YOLOv8 / YOLOv11 / RT-DETR Dataset Configuration
+# Azerbaijani Banknotes (AZN) Detection Dataset
+path: dataset
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: 001_azn
+  1: 005_azn
+  2: 010_azn
+  3: 020_azn
+  4: 050_azn
+  5: 100_azn
+  6: 200_azn

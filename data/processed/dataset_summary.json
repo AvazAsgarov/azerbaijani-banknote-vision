@@ -1,0 +1,44 @@
+{
+  "dataset_name": "Azerbaijani Banknotes (AZN) Detection Dataset",
+  "initial_raw_images": 2593,
+  "pruned_duplicate_images": 52,
+  "exact_binary_duplicates_pruned": 3,
+  "near_duplicate_burst_frames_pruned": 49,
+  "unannotated_empty_label_frames_pruned": 19,
+  "total_pruned_images": 71,
+  "active_unique_images": 2522,
+  "total_bounding_boxes": 2561,
+  "split_image_counts": {
+    "train": 1760,
+    "val": 379,
+    "test": 383
+  },
+  "split_box_counts": {
+    "train": 1774,
+    "val": 401,
+    "test": 386
+  },
+  "class_box_counts": {
+    "001_azn": 450,
+    "005_azn": 315,
+    "010_azn": 499,
+    "020_azn": 314,
+    "050_azn": 323,
+    "100_azn": 378,
+    "200_azn": 282
+  },
+  "annotator_contributions_images": {
+    "avaz": 637,
+    "gulnar": 636,
+    "kazim": 633,
+    "hasan": 616
+  },
+  "annotator_contributions_boxes": {
+    "avaz": 656,
+    "gulnar": 646,
+    "kazim": 638,
+    "hasan": 621
+  },
+  "total_capture_environments": 93,
+  "leakage_isolation": "100% Zero-Leakage (Disjoint DINOv2 meta-clusters and capture scenes between Train, Val, Test)"
+}
