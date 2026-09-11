@@ -213,7 +213,7 @@ def main() -> None:
     yaml_lines = [
         "# Ultralytics YOLOv8 / YOLOv11 / RT-DETR Dataset Configuration",
         "# Azerbaijani Banknotes (AZN) Detection Dataset",
-        "path: dataset",
+        "path: .",
         "train: images/train",
         "val: images/val",
         "test: images/test",

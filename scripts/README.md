@@ -41,4 +41,17 @@ This directory contains the production-grade CLI tools, dataset curation pipelin
 
 ### 5. Remote Infrastructure Bridge
 * **`remote_exec.py`**: Remote execution utility against Jupyter kernel over WebSockets with real-time stdout/stderr streaming.
-* **`remote_gpu_bridge.py`**: GPU environment bridge, dependency synchronizer, and nvidia-smi telemetry monitor.
+* **`remote_gpu_bridge.py`**: GPU environment bridge, dependency synchronizer, and nvidia-smi telemetry monitor.
+
+---
+
+## Script Ownership & Team Attribution
+
+| Component / Track | Lead Contributor | Key Scripts |
+| :--- | :--- | :--- |
+| **System Architecture & Orchestration** | **Avaz Asgarov** | `run_zero_leakage_split.py`, `preflight_gate.py`, `mobile_bridge.py` |
+| **Datasets & Architecture Benchmarking** | **Gulnar Babazade** | `build_dataset.py`, `ingest_fixed_labels.py`, `run_experiment_1.py`, `run_experiment_4.py` |
+| **Photometrics, Colorspace & Compression** | **Hasan Mammadov** | `run_advanced_eda.py`, `run_experiment_3.py`, `run_experiment_5.py` |
+| **TinyML Edge & Microcontroller Inference**| **Kazim Mammadli** | `train_fomo.py`, `diagnose_tinyml_metrics.py`, `generate_tinyml_plots.py`, `run_experiment_2.py` |
+| **Foundation Models, XAI & Telemetry** | **Nicat Alaskarli** | `dino.py`, `run_experiment_6.py`, `generate_diagnostic_plots.py`, `remote_gpu_bridge.py` |
+
