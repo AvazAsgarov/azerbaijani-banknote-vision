@@ -31,6 +31,6 @@ class MJPEGStreamer:
                     with self._lock: self._latest = resp.read()
                 self._frame_count += 1
             except Exception: pass
-            time.sleep(self.poll_interval)
+            self._stop_event.wait(self.poll_interval)
 
     def is_running(self): return self._thread is not None and self._thread.is_alive()
