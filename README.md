@@ -3,7 +3,7 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![PyTorch 2.6](https://img.shields.io/badge/PyTorch-2.6-EE4C2C.svg)](https://pytorch.org/)
 [![ESP32-S3 Firmware](https://img.shields.io/badge/ESP32--S3-ESP--IDF%20v5.x-E7352C.svg)](https://www.espressif.com/)
-[![Test Suite](https://img.shields.io/badge/Tests-191%2F191%20Passed-brightgreen.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/Tests-254%2F254%20Passed-brightgreen.svg)](tests/)
 [![Code Coverage](https://img.shields.io/badge/Coverage-94%25-success.svg)](reports/)
 [![Zero-Leakage Invariant](https://img.shields.io/badge/Data%20Integrity-Zero%20Leakage%20Verified-blueviolet.svg)](src/data/splitter.py)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -153,7 +153,7 @@ The repository adheres to clean modular separation across data pipelines, modeli
 │   ├── hardware/               # ESP32 camera hardware driver and frame parser
 │   ├── telemetry/              # Training callbacks and real-time metric streams
 │   └── tinyml/                 # PyTorch YOLO-FastestV2, loss, quantizer, safety guard
-├── tests/                      # Comprehensive test suite (191 tests, 100% passing)
+├── tests/                      # Comprehensive test suite (254 tests, 100% passing)
 │   ├── integration/            # Pipeline invalidation and end-to-end data workflows
 │   ├── invariants/             # Strict tests for zero leakage, bounds, and distribution balance
 │   └── unit/                   # Unit tests for every individual module and calculation
@@ -173,7 +173,7 @@ The repository adheres to clean modular separation across data pipelines, modeli
 ### 1. Environment Installation
 Ensure Python 3.12 or compatible virtual environment exists:
 ```bash
-git clone https://github.com/your-org/azn-banknote-vision.git
+git clone https://github.com/AvazAsgarov/azerbaijani-banknote-vision.git
 cd azn-banknote-vision
 python -m venv venv
 # On Linux/macOS:
@@ -185,13 +185,13 @@ pip install -r requirements.txt
 ```
 
 ### 2. Execute Full Python Test Suite
-Verify that all 191 unit, integration, and invariant tests pass:
+Verify that all 254 unit, integration, and invariant tests pass:
 ```bash
 pytest tests/ -v
 ```
 
 ### 3. Execute Mobile Application Test Suite
-Verify that all 23 mobile unit tests and audio/safety calculations pass:
+Verify that all 42 Jest and 23 ESM mobile companion tests pass:
 ```bash
 node mobile/run_tests.mjs
 ```
