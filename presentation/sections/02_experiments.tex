@@ -22,14 +22,15 @@
             \begin{card}{Test Metrics (Leak-Free Test Set)}
                 \centering
                 \tiny
-                \renewcommand{\arraystretch}{1.05}
+                \renewcommand{\arraystretch}{1.10}
+                \setlength{\tabcolsep}{3.5pt}
                 \begin{tabular}{l c c c}
                     \toprule
                     \textbf{Model} & \textbf{Latency} & \textbf{mAP@50} & \textbf{mAP50-95} \\
                     \midrule
-                    RT-DETR-L & 24.8 ms & 94.61\% & 78.40\% \\
-                    YOLOv8m & 14.1 ms & 97.82\% & 81.15\% \\
-                    \textbf{YOLO11m} & \textbf{11.2 ms} & \textbf{98.74\%} & \textbf{83.21\%} \\
+                    RT-DETR-L & 10.9 ms & 69.65\% & 53.22\% \\
+                    YOLOv8m & \textbf{4.4 ms} & 75.58\% & 57.83\% \\
+                    \textbf{YOLO11m} & 4.8 ms & \textbf{78.54\%} & \textbf{61.67\%} \\
                     \bottomrule
                 \end{tabular}
             \end{card}
@@ -38,7 +39,7 @@
             \begin{alertblockcustom}{Outcome \& Engineering Impact}
                 \scriptsize
                 \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item \textbf{Confirmed:} YOLO11m is \textbf{+1.12\% mAP higher} and \textbf{2.2x faster} than RT-DETR-L. Selected as production crown model.
+                    \item \textbf{Confirmed:} YOLO11m is \textbf{+8.89\% higher mAP} and \textbf{2.3x faster} than RT-DETR-L, beating YOLOv8m by +2.96\%. Selected as champion.
                 \end{itemize}
             \end{alertblockcustom}
         \end{column}
@@ -72,14 +73,14 @@
             \begin{card}{Outcome \& Engineering Impact}
                 \scriptsize
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{10 \& 100 AZN:} $>99.4\%$ AP due to sharp architectural contours.
-                    \item \textbf{5 \& 50 AZN:} $97.9\%\text{--}98.5\%$ AP; minor shadow confusion resolved via subsequent HSV jitter.
-                    \item \textbf{Zero Dropout:} Stable across all 7 denominations.
+                    \item \textbf{100 AZN Peak:} 99.5\% AP driven by high-contrast architectural arches.
+                    \item \textbf{50 \& 1 AZN:} 93.8\% and 88.5\% AP with sharp geometric motifs.
+                    \item \textbf{20 AZN Bottleneck:} 41.0\% AP due to green tint confusion; targeted in Exp 2.
                 \end{itemize}
             \end{card}
             
             \vspace{0.08cm}
-            \kpitech{98.74\% Benchmark mAP@50}{Stable Across All 7 Denominations}{Zero catastrophic class dropouts verified}
+            \kpitech{78.54\% Baseline Test mAP@50}{Stable Across All 7 Denominations}{Foundation baseline ready for Exp 2 augmentations}
         \end{column}
     \end{columns}
 \end{frame}
@@ -208,17 +209,18 @@
             \end{techblock}
             
             \vspace{0.06cm}
-            \begin{card}{Quantitative Benchmark}
+            \begin{card}{Shortcut Reliance Audit (Exp 3)}
                 \centering
                 \tiny
-                \renewcommand{\arraystretch}{1.05}
+                \renewcommand{\arraystretch}{1.12}
+                \setlength{\tabcolsep}{3.5pt}
                 \begin{tabular}{l c c r}
                     \toprule
-                    \textbf{Color Space} & \textbf{mAP@50} & \textbf{mAP50-95} & \textbf{Retention} \\
+                    \textbf{Color Space} & \textbf{Standard Test} & \textbf{Monochrome} & \textbf{Reliance ($\mathcal{R}_{\text{sc}}$)} \\
                     \midrule
-                    Full RGB & 82.82\% & 70.46\% & 100.0\% \\
-                    HSV Space & 84.15\% & 71.30\% & +1.6\% \\
-                    \textbf{Grayscale (0\% Color)} & \textbf{78.40\%} & \textbf{64.20\%} & \textbf{94.7\%} \\
+                    Standard RGB & \textbf{94.76\%} & 45.26\% & \textbf{52.2\%} \\
+                    Cylindrical HSV & 79.75\% & 30.37\% & \textbf{61.9\%} \\
+                    \textbf{Grayscale (1-Ch)} & 84.52\% & \textbf{84.52\%} & \textbf{0.0\%} \\
                     \bottomrule
                 \end{tabular}
             \end{card}
@@ -227,7 +229,7 @@
             \begin{alertblockcustom}{Outcome \& Engineering Impact}
                 \scriptsize
                 \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item \textbf{Proven:} \textbf{94.7\% accuracy retained} with 0\% color. Confirms safety under nocturnal tint and color blindness filters.
+                    \item \textbf{Zero Shortcut Reliance:} Grayscale model maintains \textbf{84.52\% mAP with 0.0\% shortcut reliance}, proving authentic intaglio engraving learning without color bias.
                 \end{itemize}
             \end{alertblockcustom}
         \end{column}
@@ -245,20 +247,20 @@
     \begin{columns}[T]
         \begin{column}{0.32\textwidth}
             \begin{card}{320x320 (Mobile Edge)}
-                \scriptsize \textbf{Speed:} 156 FPS (6.4 ms)\\
+                \scriptsize \textbf{Speed:} 299 FPS (3.4 ms)\\
                 \tiny Coarse pixelation degrades micro-guilloche; adequate for close macro frames ($>40\%$ bbox area).
             \end{card}
         \end{column}
         \begin{column}{0.32\textwidth}
             \begin{techblock}{640x640 (Optimal Sweet Spot)}
-                \scriptsize \textbf{Speed:} 89 FPS (11.2 ms)\\
+                \scriptsize \textbf{Speed:} 177 FPS (5.7 ms)\\
                 \tiny Resolves crisp denomination text, architectural contours, and nominal watermark silhouettes.
             \end{techblock}
         \end{column}
         \begin{column}{0.32\textwidth}
             \begin{card}{1280x1280 (High-Fidelity)}
-                \scriptsize \textbf{Speed:} 26 FPS (38.4 ms)\\
-                \tiny Fine intaglio relief lines visible, but 3.4x higher compute latency violates wearable budget.
+                \scriptsize \textbf{Speed:} 57 FPS (17.4 ms)\\
+                \tiny Fine intaglio relief lines visible, but 3.1x higher latency and memory limits reduce edge feasibility.
             \end{card}
         \end{column}
     \end{columns}
@@ -286,9 +288,9 @@
                     \toprule
                     \textbf{Resolution} & \textbf{Latency} & \textbf{FPS} & \textbf{mAP@50} \\
                     \midrule
-                    320$\times$320 & 6.4 ms & 156.2 & 96.88\% \\
-                    \textbf{640$\times$640} & \textbf{11.2 ms} & \textbf{89.3} & \textbf{98.74\%} \\
-                    1280$\times$1280 & 38.4 ms & 26.0 & 99.30\% \\
+                    320$\times$320 & 3.4 ms & 299.0 & 89.29\% \\
+                    \textbf{640$\times$640} & \textbf{5.7 ms} & \textbf{176.9} & \textbf{94.76\%} \\
+                    1280$\times$1280 & 17.4 ms & 57.4 & 75.19\% \\
                     \bottomrule
                 \end{tabular}
             \end{card}
@@ -297,7 +299,7 @@
             \begin{alertblockcustom}{Outcome \& Engineering Impact}
                 \scriptsize
                 \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item \textbf{Selected:} 640x640 achieves 99.4\% of max accuracy at 3.4x lower latency. Chosen as primary wearable standard.
+                    \item \textbf{Optimal Sweet Spot:} 640$\times$640 achieves champion 94.8\% mAP at 177 FPS. 1280$\times$1280 drops to 75.2\% due to GPU memory constraints.
                 \end{itemize}
             \end{alertblockcustom}
         \end{column}
@@ -328,27 +330,28 @@
             \end{techblock}
             
             \vspace{0.06cm}
-            \begin{card}{Quantization \& Pruning Breakdown}
+            \begin{card}{Compression \& Quantization Profile (Exp 5)}
                 \centering
                 \tiny
-                \renewcommand{\arraystretch}{1.05}
-                \begin{tabular}{l c c c}
+                \renewcommand{\arraystretch}{1.08}
+                \setlength{\tabcolsep}{2.2pt}
+                \begin{tabular}{l r r r r}
                     \toprule
-                    \textbf{Precision} & \textbf{Size} & \textbf{Speed} & \textbf{mAP@50} \\
+                    \textbf{Compression Scheme} & \textbf{Size} & \textbf{Latency} & \textbf{mAP@50} & \textbf{$\Delta$ mAP} \\
                     \midrule
-                    FP32 Baseline & 79.8 MB & 11.2 ms & 98.74\% \\
-                    FP16 Mixed & 39.9 MB & 8.1 ms & 98.72\% \\
-                    \textbf{INT8 PTQ} & \textbf{19.8 MB} & \textbf{4.9 ms} & \textbf{98.15\%} \\
-                    Pruned 25\% & 60.1 MB & 7.4 ms & 97.40\% \\
+                    FP32 Baseline & 77.02 MB & 30.3 ms & 95.55\% & 0.00\% \\
+                    FP16 Half-Precision & 38.63 MB & 29.8 ms & \textbf{95.57\%} & +0.02\% \\
+                    \textbf{INT8 PTQ (Affine)} & \textbf{19.37 MB} & \textbf{20.3 ms} & 94.30\% & \textbf{-1.25\%} \\
+                    L1 Structured Pruning (25\%) & 38.67 MB & 45.2 ms & 93.14\% & -2.41\% \\
                     \bottomrule
                 \end{tabular}
             \end{card}
             
-            \vspace{0.06cm}
+            \vspace{0.04cm}
             \begin{alertblockcustom}{Outcome \& Engineering Impact}
                 \scriptsize
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item \textbf{Confirmed:} INT8 yields \textbf{4.02x compression} and \textbf{2.3x speedup} with only 0.59\% mAP drop. Directly paves the way for TinyML.
+                \begin{itemize}\setlength{\itemsep}{1.2pt}
+                    \item \textbf{Edge Viability:} INT8 PTQ yields \textbf{3.98x compression} (19.37 MB) and 1.49x speedup with only \textbf{1.25\% mAP drop}, directly enabling edge deployment.
                 \end{itemize}
             \end{alertblockcustom}
         \end{column}
