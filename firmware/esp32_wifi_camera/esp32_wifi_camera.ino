@@ -31,11 +31,15 @@ void setup() {
     Serial.printf("[SYSTEM] Free Heap: %d bytes, Free PSRAM: %d bytes, PSRAM Found: %s\n",
                   ESP.getFreeHeap(), ESP.getFreePsram(), psramFound() ? "YES" : "NO");
 
-    wifiMulti.addAP("WPRVT", "123qweasdzxc,./@");
-    wifiMulti.addAP("ALHN-F4DF", "2WC5rWCSwC");
-    wifiMulti.addAP("Guest", "12345678");
+    // Configure primary and fallback Wi-Fi networks (configurable via build flags)
+    #ifndef WIFI_SSID
+    #define WIFI_SSID "AZN-Vision-Field"
+    #define WIFI_PASS "BanknoteAI2026"
+    #endif
+    wifiMulti.addAP(WIFI_SSID, WIFI_PASS);
+    wifiMulti.addAP("AZN-Vision-Hotspot", "SmartGlasses2026");
 
-    Serial.println("[WIFI] Connecting to Wi-Fi (WPRVT / ALHN-F4DF / Guest)...");
+    Serial.println("[WIFI] Connecting to Wi-Fi (AZN-Vision-Field / Hotspot)...");
     while (wifiMulti.run() != WL_CONNECTED) {
         delay(300);
         Serial.print(".");
