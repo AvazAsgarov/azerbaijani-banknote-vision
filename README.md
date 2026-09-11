@@ -140,6 +140,8 @@ The repository adheres to clean modular separation across data pipelines, modeli
 │   ├── src/                    # Screens, audio engine, BLE communication, safety guards
 │   └── __tests__/              # Complete Jest test suite for mobile application
 ├── presentation/               # Technical slide deck (presentation.pdf, main.tex)
+├── report.pdf                  # Capstone Research Paper (IEEEtran format)
+├── report.tex                  # LaTeX source for research paper
 ├── reports/                    # Generated high-resolution diagnostic plots and figures
 │   └── figures/                # Categorized visual figures (eda, embeddings, splits, tinyml)
 ├── scripts/                    # Automation, GPU cluster orchestration, validation gates

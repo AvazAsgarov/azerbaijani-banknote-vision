@@ -149,3 +149,9 @@ docs/research/
 bin/
 artifacts/experiments/exp6_explainability_xai/figures/exp6_unified_preview.png
 
+
+# Report page preview renders (report.pdf is the canonical deliverable)
+report_page_*.png
+
+# Presentation binary duplicate (presentation.pdf is canonical deliverable)
+presentation/main.pdf

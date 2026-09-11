@@ -1,0 +1,785 @@
+% =====================================================================
+% AZN-Vision: Empirical Evaluation of Real-Time Object Detection,
+% Shortcut Learning, and TinyML Quantization for Assistive
+% Azerbaijani Banknote Recognition
+%
+% AI Academy - National Artificial Intelligence Center
+% Cohort I - Spring 2026 - Capstone Research Paper
+% =====================================================================
+\documentclass[conference]{IEEEtran}
+
+% ===== PACKAGES ======================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{balance}
+
+% ===== TYPOGRAPHY & MATH MACROS ======================================
+\setlength{\textfloatsep}{7pt plus 1pt minus 1pt}
+\setlength{\floatsep}{6pt plus 1pt minus 1pt}
+\setlength{\intextsep}{6pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{7pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{4pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{3pt plus 1pt minus 1pt}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% =====================================================================
+% TITLE & AUTHORS
+% =====================================================================
+\title{AZN-Vision: Empirical Evaluation of Real-Time Object Detection, Shortcut Learning, and TinyML Quantization for Assistive Azerbaijani Banknote Recognition}
+
+\author{
+    \IEEEauthorblockN{
+        Avaz Asgarov\IEEEauthorrefmark{1},
+        Kazim Mammadli\IEEEauthorrefmark{2},
+        Gulnar Babazade\IEEEauthorrefmark{3},
+        Hasan Mammadov\IEEEauthorrefmark{4}, and
+        Nijat Alaskarli\IEEEauthorrefmark{5}
+    }
+    \IEEEauthorblockA{
+        AI Academy, National Artificial Intelligence Center\\
+        Baku, Azerbaijan\\
+        Email: \IEEEauthorrefmark{1}evez.esgerov@aiacademy.edu.az,
+        \IEEEauthorrefmark{2}kazim.memmedli25@aiacademy.edu.az,
+        \IEEEauthorrefmark{3}gulnar.babazade25@aiacademy.edu.az,\\
+        \IEEEauthorrefmark{4}hasan.memmedov25@aiacademy.edu.az,
+        \IEEEauthorrefmark{5}nicat.eleskerli25@aiacademy.edu.az
+    }
+}
+
+% =====================================================================
+\begin{document}
+\maketitle
+
+% =====================================================================
+% ABSTRACT
+% =====================================================================
+\begin{abstract}
+Reliable, real-time currency recognition is a vital assistive prerequisite for the visual independence of blind and visually impaired (VIB) individuals. However, mobile and embedded deployment encounters severe challenges: physical banknote crumpling, unconstrained background clutter, harsh illumination variations, and the pervasive risk of deep neural networks exploiting superficial color shortcuts rather than authentic intaglio engravings. In this work, we introduce \textbf{AZN-Vision}, an end-to-end empirical study and deployment benchmark for all seven circulating denominations of the Azerbaijani Manat (AZN). We construct a curated, gold-standard domain dataset of 2,522 clean, unique banknote instances across 93 unconstrained physical scenes, verified through dual-stage hash and Laplacian sharpness deduplication alongside a five-annotator calibration protocol achieving a spatial IoU agreement of $93.4\%$ and a multi-rater Fleiss' kappa of $\kappa = 0.962$. Across six systematic experimental investigations, we demonstrate that: (i) YOLO11m establishes the optimal architectural Pareto frontier with $78.54\%$ test mAP@50 and $4.76$\,ms latency on an NVIDIA A100 GPU; (ii) unconstrained geometric augmentations induce a catastrophic aspect-ratio collapse ($18.63\%$ generalization drop), whereas our composite photometric and mixing policy compresses the gap to $1.65\%$ reaching $95.43\%$ test mAP; (iii) standard RGB detectors exhibit severe shortcut learning ($52.2\%$ performance collapse on monochrome evaluation), whereas grayscale models achieve zero-degradation invariance by anchoring to micro-engraved intaglio contours; (iv) $640 \times 640$ represents the optimal input resolution ($94.76\%$ mAP at $176.9$\,FPS), while scaling to $1280 \times 1280$ triggers severe VRAM bottlenecks that degrade convergence; (v) Post-Training Quantization (INT8 PTQ) compresses the model footprint by $3.98\times$ (down to $19.37$\,MB) with merely a $1.25\%$ mAP penalty; and (vi) an explainable AI (xAI) audit confirms an average of $57.98\%$ visual saliency energy directly concentrated on authentic security motifs with $0.00\%$ background clutter leakage. Finally, we implement an ultra-compact YOLO-FastestV2 INT8 architecture on a standalone Seeed Studio XIAO ESP32-S3 Sense microcontroller ($196,764$ parameters), fitting entirely within a $285$\,KB internal SRAM tensor arena to achieve real-time on-device inference at $5.3$\,FPS ($190$\,ms) backed by multi-tier assistive safety guardrails.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Currency Recognition, Assistive Deep Vision, YOLO, Shortcut Learning, TinyML, Post-Training Quantization, Explainable AI, Embedded Microcontrollers.
+\end{IEEEkeywords}
+
+% =====================================================================
+% SECTION I: INTRODUCTION
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+
+\IEEEPARstart{A}{utonomous} financial transaction capability remains one of the most critical barriers to social and economic self-sufficiency for blind and visually impaired (VIB) persons worldwide. While conventional bank cards and near-field communication (NFC) terminals have proliferated in modern urban retail, cash transactions remain essential across open bazaars, municipal transit, and developing rural economies. In the Republic of Azerbaijan, the national currency---the Azerbaijani Manat (AZN)---comprises seven legal-tender paper banknotes in circulation: 1, 5, 10, 20, 50, 100, and 200 AZN. Although modern AZN notes incorporate tactile intaglio relief dots along their borders to facilitate denomination discrimination by touch, real-world conditions significantly degrade these tactile markers. Extended physical circulation, moisture exposure, fiber softening, heavy crumpling, and thermal degradation rapidly flatten surface micro-embossings, rendering manual tactile identification ambiguous or hazardous for visually impaired citizens.
+
+Recent advances in real-time deep computer vision offer compelling opportunities to build assistive wearable reading devices. However, transitioning state-of-the-art deep convolutional networks and vision transformers from curated academic benchmarks to mission-critical, assistive handheld and wearable hardware introduces formidable technical hurdles:
+\begin{enumerate}
+    \item \textbf{In-the-Wild Domain Degradation:} Handheld captures are subject to arbitrary camera distances, acute perspective skews, severe motion blur, finger occlusion, and harsh specular glares off polymeric security threads.
+    \item \textbf{Spurious Shortcut Learning:} Standard deep vision models trained with empirical risk minimization (ERM) frequently exploit superficial color distributions (e.g., broad chromatic fields) rather than invariant numismatic structural engravings. Under atypical ambient lighting or monochromatic test shifts, such models experience catastrophic classification failures.
+    \item \textbf{Edge Hardware Memory Ceilings:} Wearable assistive devices require battery-operated, ultra-compact form factors capable of sustained local inference without reliance on cloud latency or cellular connectivity. Standard deep object detectors with tens of millions of parameters exceed the internal static RAM (SRAM) capacities of low-power edge microcontrollers by orders of magnitude.
+    \item \textbf{Safety-Critical Explainability:} Assistive financial systems demand stringent model accountability. Hallucinatory predictions or model reliance on ambient tabletop clutter (such as tablecloth textures or wallet edges) can precipitate devastating financial losses for vulnerable users.
+\end{enumerate}
+
+To rigorously address these challenges, this paper presents \textbf{AZN-Vision}, an end-to-end scientific study spanning domain data engineering, systematic ablation across six targeted empirical investigations, and full-stack edge hardware deployment on a sub-watt microcontroller. The main scientific contributions of this work are summarized as follows:
+\begin{itemize}
+    \item \textbf{Curated Gold-Standard Benchmark:} We construct a vetted dataset of 2,522 clean, unique AZN banknote instances across 93 unconstrained physical environments. We implement a dual-stage deduplication pipeline (combining exact SHA-256 and perceptual pHash with Laplacian variance sharpness gating) and formalize a five-annotator calibration protocol with proven inter-annotator agreement ($\kappa = 0.962$).
+    \item \textbf{Systematic Empirical Ablations:} We formulate and experimentally validate six formal hypotheses ($H_1$--$H_6$), examining: (i) architectural Pareto optimality across modern YOLO and RT-DETR families; (ii) aspect-ratio collapse under unconstrained geometric augmentations; (iii) color shortcut reliance and intaglio engraving invariance under spectral permutations; (iv) input resolution trade-offs under GPU VRAM constraints; (v) precision quantization (FP32 $\to$ FP16 $\to$ INT8 PTQ) and structured channel pruning; and (vi) quantitative numismatic explainability via energy-based Grad-CAM heatmaps.
+    \item \textbf{Full-Stack TinyML Microcontroller Deployment:} We design and flash an ultra-compact YOLO-FastestV2 INT8 model ($196,764$ parameters) onto an ESP32-S3 Sense microcontroller, constraining the execution arena to $285$\,KB of internal SRAM to sustain real-time $5.3$\,FPS ($190$\,ms) inference without slow external PSRAM degradation. We augment the inference engine with a four-tier assistive guardrail framework incorporating geometric aspect-ratio gating, asymmetric confidence thresholds, and temporal sliding-window voting.
+\end{itemize}
+
+The remainder of this paper is structured as follows. Section~\ref{sec:related} reviews relevant literature. Section~\ref{sec:dataset} presents our domain data curation, deduplication, and multi-annotator agreement protocol. Section~\ref{sec:methodology} formalizes our mathematical framework. Section~\ref{sec:experiments} details the empirical results and ablations for Experiments 1 through 6. Section~\ref{sec:tinyml} covers our TinyML edge microcontroller architecture and safety guardrails. Section~\ref{sec:discussion} discusses failure modes and limitations, and Section~\ref{sec:conclusion} concludes the paper.
+
+% =====================================================================
+% SECTION II: RELATED WORK
+% =====================================================================
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Real-Time Object Detection Architectures}
+Single-stage object detectors have progressed rapidly from original grid-based anchors (YOLOv1--v4 \cite{redmon2016you,bochkovskiy2020yolov4}) to modern anchor-free, decoupled-head paradigms and bag-of-freebies optimization (YOLOv7 \cite{wang2023yolov7}). YOLOv8 \cite{jocher2023yolo} introduced an anchor-free task-aligned assigner with C2f feature aggregation, while the recent YOLO11 architecture incorporates C3k2 building blocks and multi-scale spatial pyramid pooling fast (SPPF) modules to maximize feature reuse and gradient propagation efficiency. Concurrently, Real-Time Detection Transformers (RT-DETR) \cite{lv2024detrs} adapted multi-scale attention heads for real-time bounding box regression, eliminating non-maximum suppression (NMS) bottlenecks. However, the comparative generalization and latency trade-offs of these architectures on specialized numismatic physical objects have remained largely unaddressed in assistive contexts.
+
+\subsection{Assistive Currency Recognition and Datasets}
+Currency classification systems have evolved from early hand-crafted feature descriptors (e.g., SIFT, SURF, and local binary patterns \cite{lowe2004distinctive,ojala2002multiresolution}) to deep convolutional neural networks. While extensive public datasets exist for major currencies such as the US Dollar and Euro \cite{pham2020deep,solymar2011banknote,dunai2017euro}, non-major circulating currencies such as the Azerbaijani Manat suffer from acute data scarcity. Previous assistive vision research has primarily targeted high-resource mobile devices on major currencies, leaving low-power microcontroller deployment for regional currencies under-explored.
+
+\subsection{Shortcut Learning and Spectral Invariance}
+Deep vision models trained via empirical risk minimization are notoriously prone to shortcut learning---a phenomenon where deep representations latch onto high-frequency spurious background features or dominant low-level color histograms rather than high-level semantic shapes \cite{geirhos2020shortcut}. In banknote vision, this manifests as reliance on nominal dominant hues (e.g., violet for 100 AZN, green for 50 AZN) rather than intrinsic architectural engravings. Recent studies in out-of-distribution generalization \cite{hendrycks2019benchmarking} emphasize the necessity of controlled spectral ablations to diagnose reliance on color shortcuts.
+
+\subsection{Edge Microcontrollers and TinyML Quantization}
+Deploying deep neural networks onto milliwatt-scale microcontrollers (TinyML) necessitates aggressive model compression to satisfy stringent on-chip static RAM constraints \cite{david2021tensorflow,banbury2021benchmarking,warden2019tinyml}. Post-Training Quantization (PTQ) maps continuous 32-bit floating-point weights and activations to 8-bit integers using uniform affine scaling \cite{jacob2018quantization,dettmers2022llm}. When combined with inverted residual bottleneck topologies \cite{sandler2018mobilenetv2} and structured channel pruning \cite{he2017channel}, sub-megabyte architectures such as YOLO-FastestV2 achieve deterministic memory residency within internal SRAM, bypassing the high energy and latency costs of external pseudo-static RAM (PSRAM) transfers.
+
+% =====================================================================
+% SECTION III: CURATED DOMAIN DATASET & SPLIT INTEGRITY
+% =====================================================================
+\section{Curated Domain Dataset \& Split Integrity}
+\label{sec:dataset}
+
+\subsection{Data Acquisition Protocol and Numismatic Scope}
+To construct an authentic benchmark mirroring the physical visual inputs encountered by VIB users, image acquisition was conducted across 93 distinct physical scenes in Baku, Azerbaijan. Images were captured using multiple handheld smartphone sensors under diverse ambient lighting environments: direct sunlight, fluorescent indoor retail, incandescent low-light, and deep shadowing. Banknotes were presented in varied physical states, including crisp mint notes, heavily creased, folded, surface-stained, and crumpled specimens held naturally in users' hands or placed on cluttered textured surfaces.
+
+The raw ingestion pool comprised 2,593 uncurated frames across all seven legal-tender AZN denominations. Each banknote was annotated with bounding coordinates and nominal class identity by five independent annotators.
+
+\subsection{Dual-Stage Deduplication and Sharpness Hygiene}
+Handheld mobile collection inevitably captures burst-shot sequences, introducing near-identical frames that induce severe train-test data leakage if unaddressed. To establish rigorous data hygiene, we designed a two-stage automated curation pipeline (\texttt{deduplicate.py}):
+
+\begin{enumerate}
+    \item \textbf{Exact SHA-256 Elimination:} Cryptographic hash evaluation identified and removed 3 bitwise identical duplicate frames.
+    \item \textbf{DCT Perceptual Hashing and Laplacian Competition:} For all remaining images, we computed discrete cosine transform (DCT) perceptual hashes (pHash) \cite{zauner2010implementation} on downsampled $32 \times 32$ luminance representations. Images exhibiting a Hamming distance $d_H(h_i, h_j) \le 4$ were flagged as duplicate clusters. To select the single optimal canonical exemplar from each cluster, we evaluated the discrete Laplacian variance sharpness operator \cite{pech2000diatom}:
+    \begin{equation}
+        \mathcal{S}(I) = \mathrm{Var}(\nabla^2 I) = \frac{1}{|\Omega|} \sum_{(x,y) \in \Omega} \left( \nabla^2 I(x,y) - \bar{\mu}_{\nabla^2} \right)^2
+        \label{eq:laplacian}
+    \end{equation}
+    where $\nabla^2 I$ represents the convolution of the image luminance channel with the standard 4-neighborhood Laplacian kernel:
+    \begin{equation}
+        K_L = \begin{bmatrix} 0 & 1 & 0 \\ 1 & -4 & 1 \\ 0 & 1 & 0 \end{bmatrix}
+    \end{equation}
+\end{enumerate}
+The frame exhibiting superior high-frequency edge energy ($\bar{\mathcal{S}} = 819.5$) was retained, while 49 motion-blurred burst copies ($\bar{\mathcal{S}} = 602.3$) were quarantined. In addition, 19 corrupt or unannotated frames were pruned, yielding a finalized, gold-standard benchmark of \textbf{2,522 clean, unique banknote instances}.
+
+\begin{table}[t]
+\centering
+\caption{Verified AZN-Vision Dataset Denomination Breakdown.}
+\label{tab:dataset_breakdown}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llrr}
+\toprule
+\textbf{Class} & \textbf{Numismatic Theme / Motif} & \textbf{Count} & \textbf{Ratio (\%)} \\
+\midrule
+001 AZN & Traditional Culture (Tar, Folk Instruments) & 439 & 17.41\% \\
+005 AZN & Literature \& Poetry (Nizami Ganjavi) & 297 & 11.78\% \\
+010 AZN & Historical Heritage (Old City, Maiden Tower) & 493 & 19.55\% \\
+020 AZN & Military Strength (Karabakh Motif, Swords) & 314 & 12.45\% \\
+050 AZN & Education \& Future (Youth, Mathematics) & 321 & 12.73\% \\
+100 AZN & Modern Economy (Baku Architecture) & 377 & 14.95\% \\
+200 AZN & Modernist Architecture (Heydar Aliyev Center) & 281 & 11.14\% \\
+\midrule
+\textbf{Total} & \textbf{All Seven Circulating Denominations} & \textbf{2,522} & \textbf{100.00\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.76\textwidth]{reports/figures/eda/dataset_sample_batch_grid.png}
+\caption{Authentic Numismatic Spectrum: Curated batch sample grid displaying genuine captures across all seven circulating Azerbaijani Manat denominations under varied handheld grips, surface creases, and unconstrained background clutter.}
+\label{fig:dataset_grid}
+\end{figure*}
+
+\subsection{Multi-Annotator Calibration and Agreement Protocol}
+To verify the consistency of the bounding box annotations and nominal labels, a blinded calibration study was executed across five independent human annotators on a randomly sampled benchmark subset of 150 images.
+
+For spatial bounding box concordance, we evaluated the intersection-over-union (IoU) between predicted annotations $B_u$ and $B_v$:
+\begin{equation}
+    \text{IoU}(B_u, B_v) = \frac{|B_u \cap B_v|}{|B_u \cup B_v|}
+\end{equation}
+Pairwise spatial agreement yielded a mean IoU of \textbf{$93.4\% \pm 0.028$} (median: $94.8\%$), demonstrating tight bounding conformity without loose margin drift.
+
+Categorical denomination labeling concordance reached \textbf{$98.8\%$}. To mathematically validate inter-rater reliability across the five annotators, we computed Fleiss' generalized multi-rater kappa statistic \cite{fleiss1971measuring} against the benchmark interpretation scale of Landis and Koch \cite{landis1977measurement}:
+\begin{equation}
+    \kappa = \frac{\bar{P} - \bar{P}_e}{1 - \bar{P}_e}
+    \label{eq:fleiss_kappa}
+\end{equation}
+where $\bar{P}$ represents the observed proportion of pairwise agreeability across the ensemble, and $\bar{P}_e$ represents the expected agreement under chance marginals:
+\begin{equation}
+    P_i = \frac{1}{n(n-1)} \sum_{j=1}^k n_{ij}(n_{ij} - 1), \quad \bar{P} = \frac{1}{N} \sum_{i=1}^N P_i
+\end{equation}
+\begin{equation}
+    p_j = \frac{1}{N n} \sum_{i=1}^N n_{ij}, \quad \bar{P}_e = \sum_{j=1}^k p_j^2
+\end{equation}
+Our multi-annotator evaluation achieved a Fleiss' kappa of \textbf{$\kappa = 0.962$}, denoting near-perfect mutual agreement far exceeding the conventional scientific threshold of $0.80$.
+
+\subsection{Scene-Independent Zero-Leakage Stratification}
+To guarantee that model evaluations reflect genuine real-world generalization rather than memorization of static tabletop backgrounds or lighting fixtures, dataset splitting was strictly stratified at the \textit{scene capture cluster} level. Frames originating from the same physical environment were strictly isolated to either training, validation, or testing partitions. 
+
+The resulting zero-leakage split contains:
+\begin{itemize}
+    \item \textbf{Training Set:} 1,765 notes ($69.98\%$) across 65 scenes.
+    \item \textbf{Validation Set:} 378 notes ($14.99\%$) across 14 scenes.
+    \item \textbf{Testing Set:} 379 notes ($15.03\%$) across 14 scenes.
+\end{itemize}
+
+% =====================================================================
+% SECTION IV: METHODOLOGY & THEORETICAL FRAMEWORK
+% =====================================================================
+\section{Methodology \& Theoretical Framework}
+\label{sec:methodology}
+
+\subsection{Detection Framework \& Objective Functions}
+We adopt modern single-stage convolutional detection architectures featuring an anchor-free decoupled head that separately computes classification logits and bounding box regression offsets.
+
+Bounding box localization is optimized using the Complete Intersection-over-Union (CIoU) loss \cite{zheng2020distance}, which enforces spatial overlap, normalized central point Euclidean distance, and aspect ratio consistency simultaneously:
+\begin{equation}
+    \mathcal{L}_{\text{CIoU}} = 1 - \text{IoU} + \frac{\rho^2(\mathbf{b}, \mathbf{b}^{gt})}{c^2} + \alpha v
+    \label{eq:ciou}
+\end{equation}
+where $\mathbf{b}$ and $\mathbf{b}^{gt}$ denote the centroids of the predicted and ground-truth boxes, $\rho(\cdot)$ is the Euclidean distance, $c$ is the diagonal length of the smallest enclosing box covering both regions, and $v$ measures the aspect ratio discrepancy:
+\begin{equation}
+    v = \frac{4}{\pi^2} \left( \arctan \frac{w^{gt}}{h^{gt}} - \arctan \frac{w}{h} \right)^2
+\end{equation}
+with the dynamic balancing parameter $\alpha$ defined as:
+\begin{equation}
+    \alpha = \frac{v}{(1 - \text{IoU}) + v}
+\end{equation}
+
+Classification is supervised using Task-Aligned Focal Loss \cite{lin2017focal} across all $C = 7$ denomination classes:
+\begin{equation}
+    \mathcal{L}_{\text{cls}} = - \sum_{c=1}^C \left[ y_c^* \log(\hat{p}_c) + (1 - y_c^*) \log(1 - \hat{p}_c) \right]
+\end{equation}
+where $y_c^*$ denotes the continuous alignment score derived from the normalized IoU and predicted classification probability.
+
+\subsection{Precision-Recall and Average Precision Metrics}
+Model detection performance is evaluated via the standard COCO-style interpolated Average Precision (AP) metric. For a given class $c$ and IoU threshold $\theta$:
+\begin{equation}
+    \text{AP}_c@\theta = \sum_{k=1}^K (R_k - R_{k-1}) \cdot \max_{\tilde{R} \ge R_k} P(\tilde{R})
+    \label{eq:ap}
+\end{equation}
+Mean Average Precision at $\text{IoU} = 0.50$ (mAP@50) and across the primary ten-point COCO threshold range $\text{IoU} \in [0.50, 0.95]$ with step size $0.05$ (mAP50-95) are formalized as:
+\begin{equation}
+    \text{mAP}@50 = \frac{1}{C} \sum_{c=1}^C \text{AP}_c@0.50
+\end{equation}
+\begin{equation}
+    \text{mAP}50\text{-}95 = \frac{1}{10 C} \sum_{i=1}^{10} \sum_{c=1}^C \text{AP}_c@(0.50 + 0.05(i - 1))
+\end{equation}
+
+\subsection{Shortcut Reliance Quantification Index}
+To mathematically quantify the extent to which a deep model relies on spurious surface statistics (e.g., global color saturation) versus structural shape features, we formulate the \textit{Shortcut Reliance Index} $\mathcal{R}_{\text{sc}}$:
+\begin{equation}
+    \mathcal{R}_{\text{sc}} = \frac{\text{mAP}_{\text{clean}} - \text{mAP}_{\text{perturbed}}}{\text{mAP}_{\text{clean}}} \times 100\%
+    \label{eq:shortcut_reliance}
+\end{equation}
+where $\text{mAP}_{\text{clean}}$ represents the performance on standard test inputs, and $\text{mAP}_{\text{perturbed}}$ represents the performance on inputs subjected to controlled feature neutralization (such as luminance-preserving desaturation). An $\mathcal{R}_{\text{sc}} \to 0\%$ denotes complete invariant feature learning, whereas an elevated $\mathcal{R}_{\text{sc}} > 50\%$ exposes severe vulnerability to domain shift.
+
+\subsection{Post-Training Quantization (PTQ) Affine Formalism}
+Deploying floating-point tensors onto integer digital signal processors requires mapping real-valued continuous activations and weights $x \in [\alpha, \beta]$ into uniform $b$-bit integer representations $q \in [-2^{b-1}, 2^{b-1}-1]$. We implement uniform asymmetric affine quantization:
+\begin{equation}
+    q = \text{clip}\left( \left\lfloor \frac{x}{S} \right\rceil + Z, -128, 127 \right)
+    \label{eq:quant}
+\end{equation}
+where $\lfloor \cdot \rceil$ denotes the nearest integer rounding operator, $S$ is the positive floating-point scale factor, and $Z$ is the integer zero-point offset:
+\begin{equation}
+    S = \frac{\beta - \alpha}{2^b - 1}, \quad Z = \text{round}\left( -\frac{\alpha}{S} \right) - 2^{b-1}
+\end{equation}
+The corresponding dequantized approximation $\hat{x}$ utilized in inference computation is expressed as:
+\begin{equation}
+    \hat{x} = S \cdot (q - Z)
+\end{equation}
+
+\subsection{Explainability: Energy-Based Numismatic Saliency Alignment}
+To mathematically measure whether model decisions originate from legitimate banknote features (e.g., watermarks, relief numerals, intaglio arches) or spurious background pixels, we formalize the \textit{Numismatic Saliency Alignment Metric} $\mathcal{A}_{\text{align}}$.
+
+Let $\mathcal{H}(u,v) \in [0, 1]$ represent the normalized 2D spatial heatmap computed from the final convolutional stage via gradient-weighted class activation mapping (Grad-CAM) \cite{selvaraju2017grad} for class $c$:
+\begin{equation}
+    \mathcal{H}(u,v) = \text{ReLU}\left( \sum_{k} \alpha_k^c A^k(u,v) \right)
+\end{equation}
+\begin{equation}
+    \alpha_k^c = \frac{1}{U \times V} \sum_{u=1}^U \sum_{v=1}^V \frac{\partial y^c}{\partial A^k(u,v)}
+\end{equation}
+where $A^k$ denotes the $k$-th feature activation map. Given the ground-truth banknote bounding domain $\mathcal{M}_{\text{note}} \subset \Omega$ and interior security feature motifs $\mathcal{M}_{\text{numis}} \subset \mathcal{M}_{\text{note}}$, we formalize the Numismatic Alignment score $\mathcal{A}_{\text{align}}$ and distant tabletop clutter leakage $\mathcal{L}_{\text{clutter}}$:
+\begin{equation}
+    \mathcal{A}_{\text{align}} = \frac{\iint_{\mathcal{M}_{\text{numis}}} \mathcal{H}(u,v) \, du \, dv}{\iint_{\Omega} \mathcal{H}(u,v) \, du \, dv} \times 100\%
+    \label{eq:alignment_score}
+\end{equation}
+\begin{equation}
+    \mathcal{L}_{\text{clutter}} = \frac{\iint_{\Omega \setminus \mathcal{M}_{\text{note}}^{+}} \mathcal{H}(u,v) \, du \, dv}{\iint_{\Omega} \mathcal{H}(u,v) \, du \, dv} \times 100\%
+    \label{eq:leakage_score}
+\end{equation}
+where $\mathcal{M}_{\text{note}}^{+}$ represents the banknote region dilated by a 5-pixel margin penumbra. A score of $\mathcal{L}_{\text{clutter}} = 0.00\%$ confirms complete absence of spurious activations on tabletop artifacts.
+
+% =====================================================================
+% SECTION V: SYSTEMATIC EMPIRICAL EVALUATIONS & ABLATION STUDIES
+% =====================================================================
+\section{Systematic Empirical Evaluations \& Ablation Studies}
+\label{sec:experiments}
+
+All deep models were trained on a high-performance compute platform utilizing an NVIDIA A100-SXM4-80GB GPU. Optimization employed stochastic gradient descent (SGD) with momentum $\mu = 0.937$, weight decay $\lambda = 0.0005$, and a cosine annealing learning rate schedule initializing at $\eta_0 = 0.01$. Training was capped at 100 epochs with an early stopping patience of 20 epochs based on validation mAP50-95.
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 1
+% ---------------------------------------------------------------------
+\subsection{Experiment 1: Architectural Selection \& Per-Class Benchmark}
+\label{subsec:exp1}
+
+\noindent\textbf{Hypothesis ($H_1$):} \textit{YOLO11m achieves a superior Pareto frontier over predecessor convolutional networks (YOLOv8m) and transformer architectures (RT-DETR-L) in balancing real-time inference latency and detection accuracy on unconstrained banknote data.}
+
+To identify the champion backbone for the AZN-Vision pipeline, we conducted a rigorous comparative evaluation between YOLO11m, YOLOv8m, and RT-DETR-L under identical training schedules and input resolutions ($640 \times 640$).
+
+\begin{table}[h]
+\centering
+\caption{Model Family Architectural Benchmark Comparison (Exp 1).}
+\label{tab:exp1_models}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Model} & \textbf{Params} & \textbf{GFLOPs} & \textbf{Latency} & \textbf{mAP@50} & \textbf{mAP50-95} \\
+\midrule
+YOLOv8m & 25.90M & 78.9 & \textbf{4.39\,ms} & 75.58\% & 57.83\% \\
+\textbf{YOLO11m} & \textbf{20.06M} & \textbf{68.0} & 4.76\,ms & \textbf{78.54\%} & \textbf{61.67\%} \\
+RT-DETR-L & 32.96M & 110.0 & 10.94\,ms & 69.65\% & 53.22\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:exp1_models}, YOLO11m decisively validates Hypothesis $H_1$. Despite containing $22.5\%$ fewer parameters than YOLOv8m ($20.06$\,M vs $25.90$\,M) and operating at a computational load of only $68.0$\,GFLOPs, YOLO11m achieves \textbf{$78.54\%$ mAP@50} and \textbf{$61.67\%$ mAP50-95}. This represents a $+2.96\%$ absolute mAP@50 gain over YOLOv8m and an $+8.89\%$ absolute advantage over RT-DETR-L. Furthermore, RT-DETR-L incurs a severe latency penalty ($10.94$\,ms vs $4.76$\,ms, over $2.3\times$ slower), making it less suitable for energy-constrained assistive wearables.
+
+\begin{table}[h]
+\centering
+\caption{Per-Class mAP@50 Breakdown for YOLO11m Champion Model.}
+\label{tab:exp1_perclass}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llr}
+\toprule
+\textbf{Denom} & \textbf{Key Numismatic Discriminators} & \textbf{mAP@50 (\%)} \\
+\midrule
+100 AZN & High-contrast architectural arches \& blue hue & \textbf{99.46\%} \\
+050 AZN & Crisp geometric youth step motifs & 93.83\% \\
+001 AZN & Distinct tar instrument silhouette & 88.49\% \\
+005 AZN & Ornate literary book contours & 87.48\% \\
+010 AZN & Medieval Maiden Tower stonework & 79.82\% \\
+200 AZN & Modernist curved structural contours & 59.67\% \\
+020 AZN & Dark green military emblem (Hardest Class) & \textbf{41.00\%} \\
+\midrule
+\textbf{Mean AP} & \textbf{Zero-Leakage Benchmark Evaluation} & \textbf{78.54\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp1_pareto_latency_map.png}
+\caption{Inference Latency vs mAP@50 Pareto frontier across evaluated detection families on NVIDIA A100 GPU (Exp 1).}
+\label{fig:exp1_pareto}
+\end{figure}
+
+The granular per-class breakdown (Table~\ref{tab:exp1_perclass}) reveals critical domain dynamics. Denominations characterized by prominent geometric iconography (such as 100 AZN at $99.46\%$ and 50 AZN at $93.83\%$) achieve near-ceiling detection precision. In contrast, 20 AZN represents the most acute failure mode ($41.00\%$). Due to chromatic overlaps between its military green palette and low-saturation captures of 200 AZN, standard models frequently experience inter-class confusion, underscoring the vital necessity of targeted data augmentation.
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 2
+% ---------------------------------------------------------------------
+\subsection{Experiment 2: Data Augmentation Ablation \& Aspect Ratio Collapse}
+\label{subsec:exp2}
+
+\noindent\textbf{Hypothesis ($H_2$):} \textit{Unconstrained geometric distortions (shear, extreme scaling, perspective warping) disrupt rigid banknote aspect ratios and degrade generalization, whereas composite photometric and spatial mosaic augmentations minimize the validation-to-test generalization gap.}
+
+In Experiment 1, YOLO11m achieved $78.54\%$ mAP@50 under standard raw baseline augmentations. To unlock its full discriminative capability while preserving the rigid legal tender physical aspect ratios ($\sim 1.87:1$ to $2.05:1$), we systematically ablated augmentation policies into four controlled experimental arms:
+\begin{itemize}
+    \item \textbf{Arm 1 (Raw Baseline):} Standard random horizontal flipping ($p = 0.5$) and minor translational cropping ($t = 0.1$).
+    \item \textbf{Arm 2 (Geometric Ablation):} Aggressive affine transforms, including random shearing ($\pm 15^\circ$), random perspective distortions ($p = 0.5$, scale $0.001$), and unconstrained aspect ratio scaling ($s \in [0.5, 1.5]$).
+    \item \textbf{Arm 3 (Photometric Ablation):} Dynamic hue-saturation-value jittering ($\Delta H = 0.015, \Delta S = 0.7, \Delta V = 0.4$), random contrast equalization, and simulated camera motion blur ($k = 5$).
+    \item \textbf{Arm 4 (Composite Winner):} Balanced photometric jittering paired with 4-image Mosaic synthesis ($p = 1.0$) and MixUp alpha blending \cite{zhang2018mixup,yun2019cutmix} ($p = 0.15$), with geometric transforms strictly regularized to preserve aspect ratios.
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\caption{Data Augmentation Policy Ablation Results (Exp 2).}
+\label{tab:exp2_augmentation}
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Augmentation Arm} & \textbf{Val mAP} & \textbf{Test mAP} & \textbf{Gap ($\Delta$)} & \textbf{mAP50-95} \\
+\midrule
+Arm 1: Raw Baseline & 94.39\% & 84.76\% & 9.64\% & 78.28\% \\
+Arm 2: Geometric & 93.79\% & \textbf{75.15\%} & \textbf{18.63\%} & 68.41\% \\
+Arm 3: Photometric & 94.53\% & 86.26\% & 8.27\% & 79.11\% \\
+\textbf{Arm 4: Composite} & \textbf{97.09\%} & \textbf{95.43\%} & \textbf{1.65\%} & \textbf{83.77\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp2_augmentation_delta.png}
+\caption{Validation-to-test generalization gap across augmentation arms, illustrating the catastrophic collapse of Arm 2 (Exp 2).}
+\label{fig:exp2_delta}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments/exp2_arms_visual_collage.png}
+\caption{Visual qualitative collage displaying training inputs under each augmentation arm: Arm 1 (Raw), Arm 2 (Geometric), Arm 3 (Photometric), and Arm 4 (Full Composite Mosaic+MixUp).}
+\label{fig:exp2_collage}
+\end{figure}
+
+The empirical findings in Table~\ref{tab:exp2_augmentation} and Figure~\ref{fig:exp2_delta} strongly validate Hypothesis $H_2$. In Arm 2, aggressive geometric warping resulted in a \textbf{catastrophic generalization collapse}: while validation mAP appeared healthy ($93.79\%$), test mAP dropped precipitously to \textbf{$75.15\%$}, resulting in an alarming generalization gap of \textbf{$18.63\%$}. Neural networks forced to classify artificially stretched banknotes learned distorted internal aspect-ratio priors that failed on authentic physical captures.
+
+In contrast, Arm 4 (Full Composite) achieved superior performance: validation mAP reached $97.09\%$, test mAP soared to \textbf{$95.43\%$}, and the generalization gap was compressed to an unprecedented \textbf{$1.65\%$}. Consequently, Arm 4 was established as the default champion training recipe for all subsequent investigations (Exp 3--6).
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 3
+% ---------------------------------------------------------------------
+\subsection{Experiment 3: Color Space Permutation \& Shortcut Learning}
+\label{subsec:exp3}
+
+\noindent\textbf{Hypothesis ($H_3$):} \textit{Standard RGB models exhibit vulnerability to color shortcut learning, while models trained on grayscale representations learn authentic intaglio engraving invariance, eliminating shortcut reliance.}
+
+In assistive computer vision, relying on color is perilous: ambient lighting in dimly lit shops, night captures, or monochromatic assistive sensors alter observed chromatic profiles. To quantify this behavior using Equation~\ref{eq:shortcut_reliance}, we trained identical YOLO11 architectures across three distinct color representations: full RGB, cylindrical HSV, and single-channel Grayscale. Each model was then evaluated on both standard full-color test sets and luminance-preserving monochrome test sets.
+
+\begin{table}[h]
+\centering
+\caption{Color Space Permutation and Shortcut Reliance Audit (Exp 3).}
+\label{tab:exp3_color}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Color Space} & \textbf{Standard Test} & \textbf{Monochrome Test} & \textbf{Reliance ($\mathcal{R}_{\text{sc}}$)} \\
+\midrule
+Standard RGB & \textbf{94.76\%} & 45.26\% & \textbf{52.2\%} \\
+Cylindrical HSV & 79.75\% & 30.37\% & \textbf{61.9\%} \\
+Grayscale (1-Ch) & 84.52\% & \textbf{84.52\%} & \textbf{0.0\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp3_color_space_delta.png}
+\caption{Performance degradation under monochrome evaluation, highlighting severe shortcut reliance in RGB and HSV models (Exp 3).}
+\label{fig:exp3_color}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments/exp3_colorspace_visual_triptych.png}
+\caption{Visual color space transformation triptych displaying standard RGB, cylindrical HSV, and single-channel Grayscale representations.}
+\label{fig:exp3_triptych}
+\end{figure}
+
+The results in Table~\ref{tab:exp3_color} reveal striking empirical evidence of shortcut learning:
+\begin{itemize}
+    \item The standard RGB model collapsed from $94.76\%$ to \textbf{$45.26\%$} when tested on monochrome images, demonstrating an alarming \textbf{$52.2\%$ shortcut reliance index}. Over half of its discriminative capacity relied purely on superficial nominal color saturation rather than physical banknote iconography.
+    \item Cylindrical HSV performed worse, exhibiting a $61.9\%$ shortcut reliance, as explicit separation of the hue channel encouraged the network to over-index on raw hue angles.
+    \item Conversely, the model trained natively on Grayscale maintained an uncompromised \textbf{$84.52\%$ mAP} across both color and monochrome regimes, yielding a perfect \textbf{$0.0\%$ shortcut reliance}. Stripped of chrominance cues during optimization, the network was compelled to identify the intricate, micro-engraved intaglio lines and watermark geometries authentic to legal tender currency.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 4
+% ---------------------------------------------------------------------
+\subsection{Experiment 4: Input Resolution Scaling \& Hardware VRAM Bottlenecks}
+\label{subsec:exp4}
+
+\noindent\textbf{Hypothesis ($H_4$):} \textit{Higher spatial resolution yields monotonic gains in feature resolution until GPU VRAM capacity limits force batch size reductions that impair training stability.}
+
+We scaled the input canvas across three spatial dimensions: $320 \times 320$, $640 \times 640$, and $1280 \times 1280$ pixels. Metrics were collected for inference latency, sustained frame rate (FPS), and test detection precision on an NVIDIA A100 GPU.
+
+\begin{table}[h]
+\centering
+\caption{Input Resolution Hardware Scaling \& Throughput Profile (Exp 4).}
+\label{tab:exp4_resolution}
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Resolution} & \textbf{Latency} & \textbf{FPS} & \textbf{mAP@50} & \textbf{mAP50-95} \\
+\midrule
+$320 \times 320$ & \textbf{3.35\,ms} & \textbf{298.5} & 89.29\% & 71.40\% \\
+$\mathbf{640 \times 640}$ & 5.65\,ms & 176.9 & \textbf{94.76\%} & \textbf{83.10\%} \\
+$1280 \times 1280$ & 17.43\,ms & 57.4 & 75.19\% & 62.80\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp4_resolution_pareto.png}
+\caption{Resolution-Latency-mAP trade-off showing the optimal sweet spot at $640 \times 640$ and the memory bottleneck at $1280 \times 1280$ (Exp 4).}
+\label{fig:exp4_resolution}
+\end{figure}
+
+The empirical profile in Table~\ref{tab:exp4_resolution} and Figure~\ref{fig:exp4_resolution} demonstrates a non-monotonic performance curve:
+\begin{itemize}
+    \item Downscaling to $320 \times 320$ yielded an ultra-fast latency of $3.35$\,ms ($298.5$\,FPS), but caused small watermark details and distant notes to blur, capping mAP@50 at $89.29\%$.
+    \item The standard $640 \times 640$ resolution emerged as the definitive \textbf{Pareto sweet spot}, achieving \textbf{$94.76\%$ mAP@50} and \textbf{$83.10\%$ mAP50-95} at a high throughput of $176.9$\,FPS.
+    \item Crucially, scaling up to $1280 \times 1280$ triggered a \textbf{severe VRAM bottleneck}. The $4\times$ increase in activation memory consumption exceeded the allocated GPU cache boundaries, forcing a batch size reduction from 16 to 8. This smaller batch size introduced extreme gradient variance in the batch normalization statistics, degrading test mAP to \textbf{$75.19\%$} while latency increased more than threefold to $17.43$\,ms. This firmly confirms Hypothesis $H_4$.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 5
+% ---------------------------------------------------------------------
+\subsection{Experiment 5: Model Compression: Precision Quantization \& Structured Pruning}
+\label{subsec:exp5}
+
+\noindent\textbf{Hypothesis ($H_5$):} \textit{Post-Training Quantization (INT8 PTQ) compresses the network memory footprint by approximately $4\times$ with an accuracy penalty below $1.5\%$ mAP, enabling practical edge residency.}
+
+To bridge the gap between heavy workstation models and resource-constrained edge microcontrollers, we benchmarked four model representations: 32-bit Floating Point (FP32 baseline), 16-bit Half-Precision (FP16), 8-bit Integer Post-Training Quantization (INT8 PTQ via Equation~\ref{eq:quant}) \cite{jacob2018quantization,dettmers2022llm}, and $25\%$ L1-norm structured channel pruning \cite{he2017channel}.
+
+\begin{table}[h]
+\centering
+\caption{Model Compression, Quantization, and Pruning Profile (Exp 5).}
+\label{tab:exp5_quantization}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Compression Scheme} & \textbf{Size} & \textbf{Latency} & \textbf{mAP@50} & \textbf{$\Delta$ mAP} \\
+\midrule
+FP32 Baseline & 77.02\,MB & 30.3\,ms & 95.55\% & 0.00\% \\
+FP16 Half-Precision & 38.63\,MB & 29.8\,ms & \textbf{95.57\%} & +0.02\% \\
+\textbf{INT8 PTQ (Affine)} & \textbf{19.37\,MB} & \textbf{20.3\,ms} & 94.30\% & \textbf{-1.25\%} \\
+L1 Structured Pruning (25\%) & 38.67\,MB & 45.2\,ms & 93.14\% & -2.41\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp5_compression_pareto.png}
+\caption{Model footprint vs Latency Pareto frontier across FP32, FP16, INT8, and Pruned configurations benchmarked on an NVIDIA RTX 3050 Ti Edge GPU (Exp 5).}
+\label{fig:exp5_compression}
+\end{figure}
+
+The results in Table~\ref{tab:exp5_quantization} conclusively substantiate Hypothesis $H_5$. Benchmarked on a dedicated edge compute platform (NVIDIA GeForce RTX 3050 Ti Edge Laptop GPU, 4\,GB VRAM), asymmetric affine calibration on 100 representative validation frames allowed INT8 PTQ to compress the model footprint from $77.02$\,MB down to \textbf{$19.37$\,MB}---a \textbf{$3.98\times$ memory reduction}. Crucially, detection precision incurred only a negligible drop of \textbf{$-1.25\%$ mAP@50} (from $95.55\%$ to $94.30\%$), while integer SIMD acceleration decreased edge latency from $30.3$\,ms down to $20.3$\,ms ($49.4$\,FPS). 
+
+Conversely, $25\%$ structured channel pruning degraded accuracy by $-2.41\%$ and paradoxically increased latency to $45.2$\,ms due to unaligned memory stride access overheads on non-specialized compute kernels, confirming that PTQ represents the superior path for edge deployment.
+
+% ---------------------------------------------------------------------
+% EXPERIMENT 6
+% ---------------------------------------------------------------------
+\subsection{Experiment 6: Explainable AI: Quantitative Numismatic Alignment Audit}
+\label{subsec:exp6}
+
+\noindent\textbf{Hypothesis ($H_6$):} \textit{The trained assistive detector concentrates its visual saliency energy directly on authentic numismatic security markers rather than background clutter, yielding near-zero environmental leakage.}
+
+To verify that the model does not exploit accidental background correlations (such as wooden table grains, wallet borders, or finger grips), we conducted a full-scale explainability audit across all seven denominations. Using Equation~\ref{eq:alignment_score}, we computed the spatial energy allocation of Grad-CAM activation heatmaps across the test set.
+
+\begin{table}[h]
+\centering
+\caption{Quantitative Numismatic Alignment Audit across Denominations (Exp 6).}
+\label{tab:exp6_xai}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Class} & \textbf{Accuracy} & \textbf{In-Note Energy} & \textbf{Leakage} & \textbf{Alignment ($\mathcal{A}$)} \\
+\midrule
+050 AZN & 96.00\% & 88.42\% & 0.00\% & \textbf{77.01\%} \\
+001 AZN & 94.00\% & 87.95\% & 0.00\% & \textbf{76.85\%} \\
+020 AZN & 88.00\% & 85.12\% & 0.00\% & \textbf{72.56\%} \\
+100 AZN & 98.00\% & 74.30\% & 0.00\% & 52.09\% \\
+005 AZN & 92.00\% & 71.80\% & 0.00\% & 49.45\% \\
+200 AZN & 90.00\% & 70.45\% & 0.00\% & 49.09\% \\
+010 AZN & 86.00\% & 56.20\% & 0.00\% & 28.77\% \\
+\midrule
+\textbf{Mean} & \textbf{92.00\%} & \textbf{76.32\%} & \textbf{0.00\%} & \textbf{57.98\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\columnwidth]{reports/figures/experiments_unified/exp6_numismatic_alignment.png}
+\caption{Quantitative Numismatic Alignment Distribution across all seven circulating Azerbaijani Manat denominations. Notice peak alignment on 50 AZN ($77.01\%$) and 1 AZN ($76.85\%$) alongside zero clutter leakage across all categories (Exp 6).}
+\label{fig:exp6_xai}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.48\textwidth]{reports/figures/experiments/exp6_heatmaps_sample_grid.png}
+\caption{Qualitative Grad-CAM activation heatmaps across circulating denominations, demonstrating tight feature focus centered on authentic numismatic emblems, relief numeral watermarks, and security threads.}
+\label{fig:exp6_heatmaps}
+\end{figure*}
+
+As documented in Table~\ref{tab:exp6_xai} and visualized in Figure~\ref{fig:exp6_xai}, the model achieved a \textbf{global mean numismatic alignment of $57.98\%$} alongside an average test classification accuracy of \textbf{$92.00\%$}. 
+\begin{itemize}
+    \item Peak alignment occurred on \textbf{50 AZN ($77.01\%$)} and \textbf{1 AZN ($76.85\%$)}, where visual activations converged tightly on high-contrast national emblems, musical instrument strings, and micro-printed educational graphics.
+    \item Even on the challenging 20 AZN banknote, alignment reached $72.56\%$, centered directly on the embossed sword and shield motifs.
+    \item Most importantly, the \textbf{tabletop clutter leakage was $0.00\%$} across all evaluations. Not a single model prediction was driven by spurious background objects, proving that AZN-Vision functions as a safe, robust assistive tool for blind users.
+\end{itemize}
+
+% =====================================================================
+% SECTION VI: TINYML MICROCONTROLLER DEPLOYMENT & HARDWARE INTEGRATION
+% =====================================================================
+\section{TinyML Microcontroller Deployment \& Hardware Integration}
+\label{sec:tinyml}
+
+\subsection{Dual-Tier Edge Deployment Hierarchy}
+To accommodate the disparate operational requirements of assistive assistive vision, we formulate a two-tier edge deployment hierarchy:
+\begin{itemize}
+    \item \textbf{Tier A (High-Fidelity Edge GPU):} YOLO11m INT8 ($19.37$\,MB, $94.30\%$ mAP@50 at $20.3$\,ms) serves as the primary engine for wearable smart-glasses paired wirelessly with an edge coprocessor or mobile NPU.
+    \item \textbf{Tier B (Ultra-Low-Power Standalone MCU):} For sub-watt, standalone operation within a 5-gram spectacle clip, we target the ultra-compact \textbf{YOLO-FastestV2} INT8 architecture ($196,764$ parameters, $340$\,KB Flash) \cite{sandler2018mobilenetv2} running on an embedded microcontroller.
+\end{itemize}
+
+\subsection{Physical Hardware \& Internal SRAM Allocation}
+We implemented Tier B on the \textbf{Seeed Studio XIAO ESP32-S3 Sense} ($21.0 \times 17.5 \times 15.0$\,mm, $<5$\,g) \cite{banbury2021benchmarking,warden2019tinyml}, featuring a dual-core Xtensa LX7 processor at $240$\,MHz with 128-bit PIE SIMD vector units ($1.92$\,GMACs/s) and an OV2640 camera sensor.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.68\columnwidth]{reports/figures/hardware/xiao_esp32s3_sense.png}
+\caption{Seeed Studio XIAO ESP32-S3 Sense edge microcontroller equipped with an OmniVision OV2640 camera sensor and integrated 2.4\,GHz BLE antenna.}
+\label{fig:xiao_hardware}
+\end{figure}
+
+The ESP32-S3 provides $512$\,KB physical SRAM and $8$\,MB external PSRAM. To prevent cache-miss latency thrashing across the serial PSRAM bus ($3\times\text{--}5\times$ slower), the entire TensorFlow Lite Micro execution arena \cite{david2021tensorflow} is pinned strictly within internal SRAM. Out of $512$\,KB, the ESP-IDF RTOS and BLE stack reserve $192$\,KB, leaving a usable SRAM pool of $320$\,KB:
+\begin{equation}
+    \text{Arena}_{\text{tensor}}\,(285\,\text{KB}) + \text{Headroom}_{\text{OS}}\,(35\,\text{KB}) = \text{SRAM}_{\text{usable}}\,(320\,\text{KB})
+    \label{eq:sram_allocation}
+\end{equation}
+Camera double-buffering ($307.2$\,KB) is offloaded to PSRAM DMA, ensuring zero cache contention. This sustains real-time on-device inference at \textbf{$5.3$\,FPS ($190$\,ms per frame)}.
+
+\subsection{Multi-Tier Assistive Safety Guardrails}
+Because an ultra-compact $196$K-parameter model on $160 \times 160$ inputs operates with reduced representational capacity compared to Tier A, unmitigated raw detections pose safety risks. To enforce zero false-positive integrity, predictions pass through a four-tier safety pipeline:
+
+\begin{enumerate}
+    \item \textbf{Tier 1: Geometric Bounding Box Gating:} Handheld captures at extreme angles or partial crops are filtered out by rejecting any detection whose aspect ratio falls outside the valid range $\text{AR} \in [1.40, 2.50]$ or whose bounding area occupies less than $8\%$ of the total camera field of view.
+    \item \textbf{Tier 2: Dynamic Asymmetric Confidence Thresholding:} In financial transactions, confusing a low-value note with a high-value note carries asymmetric financial risk. We implement denomination-specific thresholds $\tau_c$: low-value notes (1, 5 AZN) accept $\tau = 0.50$, whereas high-value denominations (100, 200 AZN) require stringent confirmation ($\tau \ge 0.80$).
+    \item \textbf{Tier 3: Temporal Ring-Buffer Consensus:} To eliminate single-frame camera shake and transient flickering, predictions pass through a 5-frame sliding ring buffer. Audio announcements trigger only when at least 3 out of 5 consecutive inferences agree on the same class ID:
+    \begin{equation}
+        \hat{C}_{\text{stable}} = \argmax_{c} \sum_{t=0}^4 \mathbb{I}(c_t = c), \quad \text{s.t.} \quad \max_c \ge 3
+    \end{equation}
+    \item \textbf{Tier 4: Low-Latency Hands-Free Telemetry:} Confirmed detections transmit a 4-byte BLE 5.0 packet delivering spoken announcements in Azerbaijani (e.g., \textit{"Yüz manat"}). Across 275 evaluation test streams, this framework safely rejected 100 ambiguous frames and issued 66 user realignment alerts, achieving \textbf{zero false-positive errors on high-denomination notes}.
+\end{enumerate}
+
+% =====================================================================
+% SECTION VII: DISCUSSION & LIMITATIONS
+% =====================================================================
+\section{Discussion \& Limitations}
+\label{sec:discussion}
+
+\subsection{Analysis of Hard-Class Confusion: 20 AZN vs 200 AZN}
+Our per-class analysis (Table~\ref{tab:exp1_perclass}) identified the 20 AZN note as the most challenging denomination ($41.00\%$ mAP@50). Spectral examination revealed that under warm incandescent or low-light tungsten illumination, the olive-green pigments of the 20 AZN note shift chromatically toward the golden-ochre palette of the modern 200 AZN note. Furthermore, both notes feature intricate curved security threads along their left margins. 
+
+Our composite augmentation policy (Arm 4) partially mitigated this confusion by synthesizing mosaic multi-note comparisons during training. However, future edge implementations should incorporate auxiliary micro-contrast filtering or active illumination (such as a calibrated LED flash) to stabilize spectral reflection.
+
+\subsection{Physical Degradation Bounds and Counterfeit Scope}
+While AZN-Vision demonstrates exceptional robustness across folds, tears, and wrinkles, severe physical degradation---such as missing halves or heavy opaque ink stains covering over $60\%$ of the surface---exceeds the recognition capability of single-stage visual detectors. 
+
+Additionally, it is essential to delineate the scope of this system: AZN-Vision is designed specifically as an \textbf{assistive recognition tool for denominational identification}, not as a forensic anti-counterfeiting validator. Forensic counterfeit verification requires ultraviolet (UV) fluorescence sensors, infrared (IR) metamers, and magnetic ink detectors that exceed the payload constraints of a wearable 5-gram microcontroller.
+
+% =====================================================================
+% SECTION VIII: CONCLUSION & FUTURE WORK
+% =====================================================================
+\balance
+\section{Conclusion \& Future Work}
+\label{sec:conclusion}
+
+In this paper, we presented \textbf{AZN-Vision}, an empirical study and deployment benchmark for real-time Azerbaijani banknote recognition on edge microcontrollers. Utilizing a curated gold-standard benchmark of 2,522 clean unique notes with proven multi-annotator agreement ($\kappa = 0.962$), we systematically audited model families, data augmentation policies, spectral shortcuts, hardware scaling ceilings, precision quantization, and numismatic explainability across six formal experiments. 
+
+Our findings demonstrated that:
+\begin{enumerate}
+    \item YOLO11m provides an optimal balance of accuracy and latency ($78.54\%$ mAP@50 at $4.76$\,ms).
+    \item Aspect-ratio-preserving composite augmentations prevent the catastrophic generalization gap observed in unconstrained geometric warping ($1.65\%$ vs $18.63\%$).
+    \item Grayscale representations achieve complete invariance ($0.0\%$ shortcut reliance) against superficial color shifts.
+    \item $640 \times 640$ represents the optimal input resolution sweet spot, avoiding GPU VRAM batch-size thrashing.
+    \item INT8 Post-Training Quantization achieves a $3.98\times$ compression factor with merely a $1.25\%$ mAP drop.
+    \item Visual saliency confirms a $57.98\%$ concentration on genuine security engravings with zero background leakage.
+\end{enumerate}
+
+Finally, we proved the feasibility of sub-watt wearable deployment by running an INT8 YOLO-FastestV2 detector on a Seeed Studio XIAO ESP32-S3 Sense microcontroller, achieving real-time inference at $5.3$\,FPS within a $285$\,KB internal SRAM arena, safeguarded by four-tier assistive decision guardrails.
+
+Future extensions will explore integrating micro-spectral ultraviolet reflectance sensing, temporal tracking via extended Kalman filters on wearable DSPs, and expanding the benchmark to multi-currency cross-border transactions across the South Caucasus region.
+
+% =====================================================================
+% ACKNOWLEDGMENT
+% =====================================================================
+\section*{Acknowledgment}
+The authors express their sincere gratitude to the instructional leadership, mentors, and staff at the AI Academy and the National Artificial Intelligence Center for their continuous technical guidance, computational resources, and support throughout Cohort I (Spring 2026).
+
+% =====================================================================
+% REFERENCES (Formal IEEE Bibliography)
+% =====================================================================
+\begin{thebibliography}{00}
+\footnotesize
+\setlength{\itemsep}{0.1pt}
+
+\bibitem{redmon2016you}
+J.~Redmon, S.~Divvala, R.~Girshick, and A.~Farhadi, ``You only look once: Unified, real-time object detection,'' in \textit{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2016, pp.~779--788.
+
+\bibitem{bochkovskiy2020yolov4}
+A.~Bochkovskiy, C.-Y.~Wang, and H.-Y.~M.~Liao, ``YOLOv4: Optimal speed and accuracy of object detection,'' \textit{arXiv preprint arXiv:2004.10934}, 2020.
+
+\bibitem{wang2023yolov7}
+C.-Y.~Wang, A.~Bochkovskiy, and H.-Y.~M.~Liao, ``YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors,'' in \textit{Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2023, pp.~7464--7475.
+
+\bibitem{jocher2023yolo}
+G.~Jocher, A.~Chaurasia, and J.~Qiu, ``Ultralytics YOLOv8,'' 2023. [Online]. Available: \url{https://github.com/ultralytics/ultralytics}
+
+\bibitem{lv2024detrs}
+W.~Lv, Y.~Zhao, S.~Xu, J.~Wei, G.~Wang, C.~Cui, Y.~Du, Q.~Dang, and Y.~Liu, ``DETRs beat YOLOs on real-time object detection,'' in \textit{Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2024, pp.~16965--16974.
+
+\bibitem{zheng2020distance}
+Z.~Zheng, P.~Wang, W.~Liu, J.~Li, R.~Ye, and D.~Ren, ``Distance-IoU loss: Faster and better learning for bounding box regression,'' in \textit{Proc. AAAI Conf. Artif. Intell. (AAAI)}, vol.~34, no.~7, 2020, pp.~12993--13000.
+
+\bibitem{lin2017focal}
+T.-Y.~Lin, P.~Goyal, R.~Girshick, K.~He, and P.~Doll{\'a}r, ``Focal loss for dense object detection,'' in \textit{Proc. IEEE Int. Conf. Comput. Vis. (ICCV)}, 2017, pp.~2980--2988.
+
+\bibitem{lowe2004distinctive}
+D.~G.~Lowe, ``Distinctive image features from scale-invariant keypoints,'' \textit{Int. J. Comput. Vis.}, vol.~60, no.~2, pp.~91--110, 2004.
+
+\bibitem{ojala2002multiresolution}
+T.~Ojala, M.~Pietik{\"a}inen, and T.~M{\"a}enp{\"a}{\"a}, ``Multiresolution gray-scale and rotation invariant texture classification with local binary patterns,'' \textit{IEEE Trans. Pattern Anal. Mach. Intell.}, vol.~24, no.~7, pp.~971--987, 2002.
+
+\bibitem{pham2020deep}
+T.~D.~Pham, C.~Park, D.~T.~Nguyen, N.~Q.~Truong, and K.~R.~Park, ``Deep learning-based fake-banknote detection for the visually impaired people using visible-light images captured by smartphone cameras,'' \textit{IEEE Access}, vol.~8, pp.~174825--174836, 2020.
+
+\bibitem{solymar2011banknote}
+Z.~Solym{\'a}r, G.~Szentandr{\'a}si, P.~Karacs, and T.~Roska, ``Banknote recognition for visually impaired,'' in \textit{Proc. IEEE 20th Eur. Conf. Circuit Theory Design (ECCTD)}, 2011, pp.~600--603.
+
+\bibitem{dunai2017euro}
+L.~Dunai, M.~Chillar{\'o}n~P{\'e}rez, G.~Peris-Fajarn{\'e}s, and I.~Lengua~Lengua, ``Euro banknote recognition system for blind people,'' \textit{Sensors}, vol.~17, no.~8, p.~1849, 2017.
+
+\bibitem{pech2000diatom}
+J.~L.~Pech-Pacheco, G.~Crist{\'o}bal, J.~Chamorro-Mart{\'i}nez, and J.~Fern{\'a}ndez-Valdivia, ``Diatom autofocusing in brightfield microscopy: A comparative study,'' in \textit{Proc. 15th Int. Conf. Pattern Recognit. (ICPR)}, vol.~3, 2000, pp.~314--317.
+
+\bibitem{zauner2010implementation}
+C.~Zauner, ``Implementation and benchmarking of perceptual image hash functions,'' Master's thesis, Upper Austria Univ. Appl. Sci., Hagenberg, Austria, 2010.
+
+\bibitem{fleiss1971measuring}
+J.~L.~Fleiss, ``Measuring nominal scale agreement among many raters,'' \textit{Psychol. Bull.}, vol.~76, no.~5, pp.~378--382, 1971.
+
+\bibitem{landis1977measurement}
+J.~R.~Landis and G.~G.~Koch, ``The measurement of observer agreement for categorical data,'' \textit{Biometrics}, vol.~33, no.~1, pp.~159--174, 1977.
+
+\bibitem{zhang2018mixup}
+H.~Zhang, M.~Cisse, Y.~N.~Dauphin, and D.~Lopez-Paz, ``mixup: Beyond empirical risk minimization,'' in \textit{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2018.
+
+\bibitem{yun2019cutmix}
+S.~Yun, D.~Han, S.~J.~Oh, S.~Chun, J.~Choe, and Y.~Yoo, ``CutMix: Regularization strategy to train strong classifiers with localizable features,'' in \textit{Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV)}, 2019, pp.~6023--6032.
+
+\bibitem{geirhos2020shortcut}
+R.~Geirhos, J.-H.~Jacobsen, C.~Michaelis, R.~Zemel, W.~Brendel, M.~Bethge, and F.~A.~Wichmann, ``Shortcut learning in deep neural networks,'' \textit{Nature Mach. Intell.}, vol.~2, no.~11, pp.~665--673, 2020.
+
+\bibitem{hendrycks2019benchmarking}
+D.~Hendrycks and T.~Dietterich, ``Benchmarking neural network robustness to common corruptions and perturbations,'' in \textit{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2019.
+
+\bibitem{jacob2018quantization}
+B.~Jacob, S.~Kligys, B.~Chen, M.~Zhu, M.~Tang, A.~Howard, H.~Adam, and D.~Kalenichenko, ``Quantization and training of neural networks for efficient integer-arithmetic-only inference,'' in \textit{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2018, pp.~2704--2713.
+
+\bibitem{dettmers2022llm}
+T.~Dettmers, M.~Lewis, Y.~Belkada, and L.~Zettlemoyer, ``LLM.int8(): 8-bit matrix multiplication for transformers at scale,'' in \textit{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~35, 2022, pp.~30318--30332.
+
+\bibitem{he2017channel}
+Y.~He, X.~Zhang, and J.~Sun, ``Channel pruning for accelerating very deep neural networks,'' in \textit{Proc. IEEE Int. Conf. Comput. Vis. (ICCV)}, 2017, pp.~1389--1397.
+
+\bibitem{selvaraju2017grad}
+R.~R.~Selvaraju, M.~Cogswell, A.~Das, R.~Vedantam, D.~Parikh, and D.~Batra, ``Grad-CAM: Visual explanations from deep networks via gradient-based localization,'' in \textit{Proc. IEEE Int. Conf. Comput. Vis. (ICCV)}, 2017, pp.~618--626.
+
+\bibitem{sandler2018mobilenetv2}
+M.~Sandler, A.~Howard, M.~Zhu, A.~Zhmoginov, and L.-C.~Chen, ``MobileNetV2: Inverted residuals and linear bottlenecks,'' in \textit{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2018, pp.~4510--4520.
+
+\bibitem{david2021tensorflow}
+R.~David, P.~Duke, A.~Jain, V.~J.~Reddi, N.~Jeffries, J.~Li, N.~Kreeger, I.~Nappier, M.~Natraj, S.~Regev, et al., ``TensorFlow Lite Micro: Embedded machine learning on TinyML systems,'' in \textit{Proc. Mach. Learn. Syst. (MLSys)}, vol.~3, 2021, pp.~800--811.
+
+\bibitem{warden2019tinyml}
+P.~Warden and D.~Situnayake, \textit{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-Low-Power Microcontrollers}. O'Reilly Media, 2019.
+
+\bibitem{banbury2021benchmarking}
+C.~R.~Banbury, V.~J.~Reddi, M.~Lam, W.~Fu, A.~Fazel, B.~Holleman, X.~Huang, R.~Hurtado, D.~Kanter, et al., ``Benchmarking TinyML systems: Challenges and direction,'' \textit{IEEE Micro}, vol.~41, no.~6, pp.~104--114, 2021.
+
+\end{thebibliography}
+
+\end{document}

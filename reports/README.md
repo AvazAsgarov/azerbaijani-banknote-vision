@@ -2,6 +2,9 @@
 
 This directory serves as the centralized archive for publication-grade diagnostic figures, empirical evaluation plots, and scientific reporting assets for the **AZN-Vision** research study.
 
+* **Capstone Research Paper:** [`report.pdf`](../report.pdf) (12-page IEEEtran paper)
+* **Paper LaTeX Source:** [`report.tex`](../report.tex)
+
 ---
 
 ## Directory Organization
