@@ -1,0 +1,235 @@
+[
+  {
+    "arm_id": "arm1_none_raw",
+    "display_name": "Arm 1: Raw Baseline (Zero Augmentation)",
+    "status": "SUCCESS",
+    "train_time_minutes": 22.12,
+    "val_map50": 0.9439,
+    "val_map50_95": 0.9211,
+    "val_map75": 0.9362,
+    "test_map50": 0.8476,
+    "test_map50_95": 0.7828,
+    "test_map75": 0.8015,
+    "generalization_gap_map50": 0.0964,
+    "latency_gpu_ms": 5.51,
+    "fps_gpu": 181.6,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.9233041401867192,
+        "ap50_95": 0.9233041401867192
+      },
+      "005_azn": {
+        "ap50": 0.820894503707905,
+        "ap50_95": 0.820894503707905
+      },
+      "010_azn": {
+        "ap50": 0.5481501719286124,
+        "ap50_95": 0.5481501719286124
+      },
+      "020_azn": {
+        "ap50": 0.6192205800617527,
+        "ap50_95": 0.6192205800617527
+      },
+      "050_azn": {
+        "ap50": 0.7684050365229502,
+        "ap50_95": 0.7684050365229502
+      },
+      "100_azn": {
+        "ap50": 0.9217544210568338,
+        "ap50_95": 0.9217544210568338
+      },
+      "200_azn": {
+        "ap50": 0.8779005424652665,
+        "ap50_95": 0.8779005424652665
+      }
+    },
+    "hyperparameters": {
+      "mosaic": 0.0,
+      "mixup": 0.0,
+      "fliplr": 0.0,
+      "hsv_h": 0.0,
+      "hsv_s": 0.0,
+      "hsv_v": 0.0,
+      "degrees": 0.0,
+      "translate": 0.0,
+      "scale": 0.0,
+      "shear": 0.0,
+      "perspective": 0.0
+    }
+  },
+  {
+    "arm_id": "arm2_geometric",
+    "display_name": "Arm 2: Pure Geometric (Rotation, Scale, Shear, Flip)",
+    "status": "SUCCESS",
+    "train_time_minutes": 14.01,
+    "val_map50": 0.9379,
+    "val_map50_95": 0.6915,
+    "val_map75": 0.873,
+    "test_map50": 0.7515,
+    "test_map50_95": 0.5063,
+    "test_map75": 0.6195,
+    "generalization_gap_map50": 0.1863,
+    "latency_gpu_ms": 4.59,
+    "fps_gpu": 217.7,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.6600690639251181,
+        "ap50_95": 0.6600690639251181
+      },
+      "005_azn": {
+        "ap50": 0.5049309857168911,
+        "ap50_95": 0.5049309857168911
+      },
+      "010_azn": {
+        "ap50": 0.3230963120011808,
+        "ap50_95": 0.3230963120011808
+      },
+      "020_azn": {
+        "ap50": 0.4408195039277631,
+        "ap50_95": 0.4408195039277631
+      },
+      "050_azn": {
+        "ap50": 0.4566595087058783,
+        "ap50_95": 0.4566595087058783
+      },
+      "100_azn": {
+        "ap50": 0.5935475022559764,
+        "ap50_95": 0.5935475022559764
+      },
+      "200_azn": {
+        "ap50": 0.5648188868753983,
+        "ap50_95": 0.5648188868753983
+      }
+    },
+    "hyperparameters": {
+      "mosaic": 0.0,
+      "mixup": 0.0,
+      "fliplr": 0.5,
+      "degrees": 15.0,
+      "translate": 0.15,
+      "scale": 0.5,
+      "shear": 2.5,
+      "perspective": 0.0005,
+      "hsv_h": 0.0,
+      "hsv_s": 0.0,
+      "hsv_v": 0.0
+    }
+  },
+  {
+    "arm_id": "arm3_photometric",
+    "display_name": "Arm 3: Pure Photometric (Color Jitter & Lighting)",
+    "status": "SUCCESS",
+    "train_time_minutes": 21.91,
+    "val_map50": 0.9453,
+    "val_map50_95": 0.9222,
+    "val_map75": 0.9332,
+    "test_map50": 0.8626,
+    "test_map50_95": 0.8015,
+    "test_map75": 0.8315,
+    "generalization_gap_map50": 0.0827,
+    "latency_gpu_ms": 4.6,
+    "fps_gpu": 217.4,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.922672594918617,
+        "ap50_95": 0.922672594918617
+      },
+      "005_azn": {
+        "ap50": 0.7343045649803168,
+        "ap50_95": 0.7343045649803168
+      },
+      "010_azn": {
+        "ap50": 0.6114361572681248,
+        "ap50_95": 0.6114361572681248
+      },
+      "020_azn": {
+        "ap50": 0.6667333104999417,
+        "ap50_95": 0.6667333104999417
+      },
+      "050_azn": {
+        "ap50": 0.791649559621217,
+        "ap50_95": 0.791649559621217
+      },
+      "100_azn": {
+        "ap50": 0.9492091647589953,
+        "ap50_95": 0.9492091647589953
+      },
+      "200_azn": {
+        "ap50": 0.9344246794871796,
+        "ap50_95": 0.9344246794871796
+      }
+    },
+    "hyperparameters": {
+      "mosaic": 0.0,
+      "mixup": 0.0,
+      "fliplr": 0.0,
+      "degrees": 0.0,
+      "translate": 0.0,
+      "scale": 0.0,
+      "shear": 0.0,
+      "perspective": 0.0,
+      "hsv_h": 0.025,
+      "hsv_s": 0.7,
+      "hsv_v": 0.4
+    }
+  },
+  {
+    "arm_id": "arm4_full_composite",
+    "display_name": "Arm 4: Full Composite (Mosaic, Mixup, Geometric & Color)",
+    "status": "SUCCESS",
+    "train_time_minutes": 22.01,
+    "val_map50": 0.9709,
+    "val_map50_95": 0.8804,
+    "val_map75": 0.9587,
+    "test_map50": 0.9543,
+    "test_map50_95": 0.8377,
+    "test_map75": 0.9409,
+    "generalization_gap_map50": 0.0165,
+    "latency_gpu_ms": 4.62,
+    "fps_gpu": 216.5,
+    "per_class_test_ap": {
+      "001_azn": {
+        "ap50": 0.8839648190188705,
+        "ap50_95": 0.8839648190188705
+      },
+      "005_azn": {
+        "ap50": 0.8063616088065952,
+        "ap50_95": 0.8063616088065952
+      },
+      "010_azn": {
+        "ap50": 0.7803360988157567,
+        "ap50_95": 0.7803360988157567
+      },
+      "020_azn": {
+        "ap50": 0.8801364131057395,
+        "ap50_95": 0.8801364131057395
+      },
+      "050_azn": {
+        "ap50": 0.7819210357865622,
+        "ap50_95": 0.7819210357865622
+      },
+      "100_azn": {
+        "ap50": 0.8900913881290325,
+        "ap50_95": 0.8900913881290325
+      },
+      "200_azn": {
+        "ap50": 0.8411177466542673,
+        "ap50_95": 0.8411177466542673
+      }
+    },
+    "hyperparameters": {
+      "mosaic": 1.0,
+      "mixup": 0.15,
+      "copy_paste": 0.1,
+      "fliplr": 0.5,
+      "degrees": 15.0,
+      "translate": 0.15,
+      "scale": 0.5,
+      "shear": 2.5,
+      "perspective": 0.0005,
+      "hsv_h": 0.025,
+      "hsv_s": 0.7,
+      "hsv_v": 0.4
+    }
+  }
+]

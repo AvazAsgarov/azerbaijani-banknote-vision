@@ -1,0 +1,68 @@
+{
+  "profiling_date": "2026-09-10",
+  "target_hardware": "Seeed Studio XIAO ESP32S3 Sense (Dual-core Xtensa LX7 @ 240 MHz)",
+  "model_architecture": "YOLO-FastestV2 INT8 (160x160 RGB)",
+  "total_parameters": 196764,
+  "workstation_gpu_latency_ms": 4.356625999989774,
+  "workstation_gpu_std_ms": 1.1310246679460139,
+  "workstation_gpu_fps": 229.53542489126843,
+  "host_cpu_latency_ms": 8.132392500002652,
+  "host_cpu_std_ms": 3.572864109578298,
+  "host_cpu_fps": 122.9650438047197,
+  "esp32s3_projected_latency_ms": 190.0,
+  "esp32s3_projected_fps": 5.26,
+  "memory_arena": {
+    "sram_total_kb": 512,
+    "sram_usable_kb": 320,
+    "nn_tensor_arena_allocated_kb": 285,
+    "contiguous_free_headroom_kb": 35,
+    "peak_activation_buffer_kb": 76.8,
+    "psram_total_mb": 8,
+    "camera_dma_double_buffer_kb": 307.2,
+    "psram_cache_thrashing_risk": "ZERO (Tensor Arena strictly in internal SRAM)"
+  },
+  "safety_guardrail": {
+    "total_evaluated": 275,
+    "confirmed_detections": 0,
+    "guidance_alerts": 66,
+    "rejected_negatives": 100,
+    "high_denomination_false_positives": 0,
+    "class_breakdown": {
+      "001_azn": {
+        "total": 64,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "005_azn": {
+        "total": 49,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "010_azn": {
+        "total": 55,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "020_azn": {
+        "total": 7,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "050_azn": {
+        "total": 0,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "100_azn": {
+        "total": 0,
+        "confirmed": 0,
+        "false_positives": 0
+      },
+      "200_azn": {
+        "total": 0,
+        "confirmed": 0,
+        "false_positives": 0
+      }
+    }
+  }
+}
