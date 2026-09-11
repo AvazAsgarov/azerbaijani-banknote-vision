@@ -286,7 +286,7 @@ def verify_system_architecture() -> None:
         ("mobile/ (Assistive Mobile Companion Application)", PATHS.root_dir / "mobile"),
         ("firmware/ (ESP32-S3 Edge Smart Glasses Firmware)", PATHS.root_dir / "firmware"),
         ("configs/data.yaml (YOLO dataset specification)", PATHS.configs_dir / "data.yaml"),
-        ("report/ (Scientific paper workspace)", PATHS.root_dir / "report"),
+        ("docs/ (Scientific documentation workspace)", PATHS.root_dir / "docs"),
         ("presentation/ (Technical slide deck)", PATHS.root_dir / "presentation"),
         ("docs/contribution_statement.md (Author contribution statement)", PATHS.root_dir / "docs" / "contribution_statement.md"),
     ]
