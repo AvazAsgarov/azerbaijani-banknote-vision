@@ -1,0 +1,22 @@
+# Experiment 1 — Deep Learning Architecture Battle
+# Responsible: Gulnar Babazade
+experiment:
+  id: exp1
+  name: "Deep Learning Architecture Battle (YOLOv8m vs YOLO11m vs RT-DETR-L)"
+models:
+  - id: yolov8m
+    name: "YOLOv8m (Baseline CNN)"
+    input_size: 640
+  - id: yolo11m
+    name: "YOLO11m (Attention Champion)"
+    input_size: 640
+  - id: rtdetr_l
+    name: "RT-DETR-L (Vision Transformer)"
+    input_size: 640
+training:
+  epochs: 100
+  batch_size: 16
+  seed: 42
+evaluation:
+  metrics: [mAP50, mAP50-95, latency_ms, param_count]
+  split: test

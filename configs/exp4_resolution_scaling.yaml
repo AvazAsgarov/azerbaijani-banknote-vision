@@ -1,0 +1,17 @@
+# Experiment 4 — Multiscale Resolution Dynamics
+# Responsible: Gulnar Babazade
+experiment:
+  id: exp4
+  name: "Multiscale Resolution Scaling Dynamics"
+model:
+  architecture: yolo11m
+resolutions:
+  - resolution: 320
+    name: "320x320 (Mobile Edge)"
+  - resolution: 640
+    name: "640x640 (Standard Baseline)"
+  - resolution: 1280
+    name: "1280x1280 (High-Fidelity Numismatic)"
+evaluation:
+  metrics: [mAP50, mAP50-95, latency_ms, throughput_fps]
+  split: test

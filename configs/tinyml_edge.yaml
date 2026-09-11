@@ -4,7 +4,7 @@ pipeline:
   model: YOLO-FastestV2
   precision: INT8
   input_size: 96
-  flatbuffer: artifacts/tinyml/azn_vision_int8.tflite
+  flatbuffer: artifacts/tinyml/yolo_fastestv2_int8.tflite
 target:
   device: ESP32-S3
   board: Seeed Studio XIAO ESP32-S3 Sense
