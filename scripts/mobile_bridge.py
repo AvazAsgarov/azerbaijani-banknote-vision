@@ -72,12 +72,14 @@ def discover_camera_url() -> Optional[str]:
     except Exception:
         pass
 
-    try:
-        sock = socket.create_connection(("192.168.0.6", 81), timeout=0.25)
-        sock.close()
-        return "http://192.168.0.6:81/stream"
-    except Exception:
-        pass
+    fallback_ip = os.getenv("ESP32_WIFI_IP")
+    if fallback_ip:
+        try:
+            sock = socket.create_connection((fallback_ip, 81), timeout=0.25)
+            sock.close()
+            return f"http://{fallback_ip}:81/stream"
+        except Exception:
+            pass
 
     return None
 
