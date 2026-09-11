@@ -116,3 +116,37 @@ mobile/.expo/
 mobile/dist/
 mobile/.env
 mobile/web-build/
+
+# Binary Model Weights & Checkpoints (Reproducible from scripts)
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Training Logs & Runs
+logs/
+*/logs/
+runs/
+
+# Large Dataset Image Trees & Raw Archives
+data/processed/images/
+data/processed/master/
+data/processed/pruned_archive/
+data/raw/AzeBankNotes_labelling/
+data/raw/hasan
+data/raw/hasan/
+
+# Internal Assignment & Interim Reports (Docs/ only retains annotation_guidelines and contribution_statement)
+docs/DATASET_COLLECTION_GUIDE.md
+docs/DATA_PREP_REPORT.md
+docs/EDA_REPORT.md
+docs/README.md
+docs/dl_final_pdf.pdf
+docs/dl_final_project.md
+docs/research/
+
+# Configs & Tooling
+*.conf
+bin/
+artifacts/experiments/exp6_explainability_xai/figures/exp6_unified_preview.png
+
