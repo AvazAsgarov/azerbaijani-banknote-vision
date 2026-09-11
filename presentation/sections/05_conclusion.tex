@@ -1,0 +1,74 @@
+% ==============================================================================
+% SECTION 5: CONCLUSION & Q&A
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% Slide 22: Thank You & Technical Discussion
+% ------------------------------------------------------------------------------
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+        % Background geometric watermark (drawn behind header)
+        \draw[BorderGrey!60, line width=1.5pt] ([xshift=-2.5cm, yshift=-2.5cm]current page.north east) circle (4.5cm);
+        \draw[BorderGrey!40, line width=0.8pt] ([xshift=-2.5cm, yshift=-2.5cm]current page.north east) circle (5.5cm);
+
+        % Deep Navy Top Header Banner
+        \fill[PrimaryNavy] (current page.north west) rectangle ([yshift=-1.20cm]current page.north east);
+        \node[anchor=west, text=white, font=\scriptsize\bfseries] at ([xshift=0.8cm, yshift=-0.60cm]current page.north west) {AI ACADEMY $\cdot$ NATIONAL ARTIFICIAL INTELLIGENCE CENTER};
+        \node[anchor=east, text=white!85, font=\scriptsize\bfseries] at ([xshift=-0.8cm, yshift=-0.60cm]current page.north east) {COHORT I $\cdot$ CAPSTONE ORAL DEFENSE};
+
+        % Subtle decorative accent line
+        \fill[AccentBlue] ([yshift=-1.20cm]current page.north west) rectangle ([yshift=-1.25cm]current page.north east);
+
+        % Deep Navy Bottom Accent Bar
+        \fill[PrimaryNavy] (current page.south west) rectangle ([yshift=0.52cm]current page.south east);
+        \node[anchor=center, text=white!90, font=\tiny\bfseries] at ([yshift=0.26cm]current page.south) {AI Academy $\cdot$ Group M001 $\cdot$ Team Qarabağ Zəfəri $\cdot$ 13 September 2026};
+    \end{tikzpicture}
+
+    \vspace{0.50cm}
+    \begin{center}
+        % Clean Highlighted Attention Title
+        {\fontsize{24pt}{28pt}\selectfont\bfseries\color{PrimaryNavy} Thank You for Your \colorbox{AccentBlue!15}{\color{AccentBlue}Attention}}
+    \end{center}
+
+    \vspace{0.20cm}
+    % Meaningful Capstone Parting Note (only the post-dash thank you)
+    \begin{tcolorbox}[
+        enhanced,
+        colback=LightGreyBg,
+        colframe=AccentBlue!35,
+        arc=2mm,
+        boxrule=0.7pt,
+        left=10pt, right=10pt, top=6pt, bottom=6pt,
+        halign=center
+    ]
+        {\small\color{PrimaryNavy}\itshape
+        "Thank you to AI Academy, our instructors, and mentors for an inspiring and unforgettable capstone journey."}
+    \end{tcolorbox}
+
+    \vspace{0.20cm}
+    \begin{columns}[c]
+        % Left Column: Clean Any Questions Block
+        \begin{column}{0.48\textwidth}
+            \begin{techblock}{Any Questions?}
+                \vspace{0.35cm}
+                \centering
+                {\fontsize{18pt}{22pt}\selectfont\bfseries\color{PrimaryNavy} Q \& A}\\[0.25cm]
+                {\footnotesize\color{DarkSlate!80} Floor is open for questions\\and technical discussion.}
+                \vspace{0.35cm}
+            \end{techblock}
+        \end{column}
+
+        % Right Column: Team & Codebase
+        \begin{column}{0.48\textwidth}
+            \begin{techblock}{Team Qarabağ Zəfəri · Open Source}
+                \scriptsize
+                \begin{itemize}\setlength{\itemsep}{3.5pt}
+                    \item \textbf{Team:} Avaz Asgarov, Kazim Mammadli, Gulnaz Babazade, Hasan Mammadov, Nijat Alaskarli.
+                    \item \textbf{Group:} M001 $\cdot$ Deep Learning (DLE-AI-202).
+                    \item \textbf{Codebase:}\quad\href{https://github.com/AvazAsgarov/azerbaijani-banknote-vision}{\color{AccentBlue}\bfseries\underline{\texttt{GitHub Repository}}}
+                    \item \textbf{Artifacts:} Edge Models $\cdot$ Firmware $\cdot$ iOS App $\cdot$ Audits
+                \end{itemize}
+            \end{techblock}
+        \end{column}
+    \end{columns}
+\end{frame}
